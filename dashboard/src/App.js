@@ -19,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <div className="App" style={Appstyle}>
           <div className="container">
             <Header />
             <Route
@@ -49,5 +49,9 @@ class App extends Component {
     );
   }
 }
+const Appstyle = {
+  padding: "0px",
+  margin: "0px",
+};
 
 export default App;

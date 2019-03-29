@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import './Header.css';
 
 export class Header extends Component {
   refreshPage = () => {
@@ -7,8 +8,17 @@ export class Header extends Component {
   };
   render() {
     return (
-      <div style={headerStyle}>
-        <h1> Programming Club App </h1>
+      <div className="headerStyle">
+
+        <div className="topbar">
+          <img className="logo" src={require('../images/logo.png')} alt="logo"/>
+          <div className="name">The Programming Club App</div>
+          <div className="profile">
+            <img className="dp" src={require('../images/avatar-01.jpg')} alt="logo"/>
+            <div className="username">Parva</div>
+          </div>
+        </div>
+
         <div style={linkAlign}>
           <Link to="/" style={linkStyle}>
             Dashboard
@@ -32,18 +42,11 @@ export class Header extends Component {
             </Link>
           </div>
         </div>
-      </div>
+      </div>  
     );
   }
 }
 
-const headerStyle = {
-  padding: "5px",
-  textAlign: "center",
-  color: "white",
-  background: "Black",
-  border: "solid 3px #ccc"
-};
 const linkStyle = {
   color: "#fff",
   textDecoration: "none",

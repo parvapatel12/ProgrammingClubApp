@@ -10,7 +10,7 @@ export class Dashboard extends Component {
         </div>
         <div style={right}>
           <h2>Topics</h2>
-          <p>Here are the t</p>
+          <p>Here are the topics</p>
         </div>
       </div>
     );
