@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App" style={Appstyle}>
-          <div className="container">
+          <div className="contain">
             <Header />
             <Route
               exact
