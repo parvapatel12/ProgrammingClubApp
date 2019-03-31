@@ -1,132 +1,123 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import './Header.css';
-
-//import DropdownButton from 'react-bootstrap/DropdownButton';
+//import PropTypes from 'prop-types'
+//import { DropdownButton, Dropdown } from 'react-bootstrap';
 //import Dropdown from 'react-bootstrap/Dropdown';
 //import {Navbar, Nav, NavDropdown, Form, FormControl, Button} from 'bootstrap';
+//import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+
+
+
 
 export class Header extends Component {
   refreshPage = () => {
     window.location.reload();
   };
+
+
+
+
+  //for drop down button starting here...
+  constructor() {
+    super();
+
+    this.state = {
+      showMenu: false,
+    };
+
+    this.showMenu = this.showMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+  }
+
+  showMenu(event) {
+    event.preventDefault();
+
+    this.setState({ showMenu: true }, () => {
+      document.addEventListener('click', this.closeMenu);
+    });
+  }
+
+  closeMenu(event) {
+
+    if (!this.dropdownMenu.contains(event.target)) {
+
+      this.setState({ showMenu: false }, () => {
+        document.removeEventListener('click', this.closeMenu);
+      });
+
+    }
+  }
+  // till here...
+
+
   render() {
     return (
       <div className="headerStyle">
 
         <div className="header-topbar">
-          <img className="app-logo" src={require('../images/logo.png')} alt="logo"/>
+          <img className="app-logo" src={require('../images/logo.png')} alt="logo" />
           <div className="app-name">The Programming Club App</div>
-          <div className="profile">
-            <img className="dp" src={require('../images/avatar-01.jpg')} alt="logo"/>
+         
+        {/*  <div className="profile">
+            <img className="dp" src={require('../images/avatar-01.jpg')} alt="logo" />
             <div className="username">Parva</div>
           </div>
-      
-      {/*    <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#link">Link</Nav.Link>
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-              <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-success">Search</Button>
-              </Form>
-            </Navbar.Collapse>
-          </Navbar>;
-    */}  
+    */}
 
-        {/*
-         <div className="account-wrap">
-            <div className="account-item clearfix js-item-menu">
-              <div className="image">
-                <img className="dp" src={require('../images/avatar-01.jpg')} alt="Profile Photo"/>
-              </div>
-              
-              <div className="content">
-                <a className="js-acc-btn" href="#">Parva Patel</a>
-              </div>
-              
-              <div className="account-dropdown js-dropdown">
-                <div className="info clearfix">
-                  <div className="image">
-                    <a href="#">
-                    <img className="dp" src={require('../images/avatar-01.jpg')} alt="Profile Photo"/>
-                    </a>
+          <div className="profile" onClick={this.showMenu}>
+            <img className="dp" src={require('../images/avatar-01.jpg')} alt="profile" />
+            <p className="username">Parva Patel</p>
+            {
+              this.state.showMenu
+                ? (
+                  <div
+                    className="menu"
+                    ref={(element) => {
+                      this.dropdownMenu = element;
+                    }}
+                  >
+                    <div className="dropitems-view-only"> 
+                      <img className="dp-big" src={require('../images/avatar-01.jpg')} alt="profile" />
+                      <div className="name-email"> 
+                        <p className="username-big" >Parva Patel</p>
+                        <p className="email-big">parvapatel12@gmail.com</p>
+                      </div>              
+                    </div>
+                    <div className="dropitems"> Menu item 1 </div>
+                    <div className="dropitems"> Menu item 2 </div>
+                    <div className="dropitems"> Menu item 3 </div>
                   </div>
-                  <div className="content">
-                    <h5 className="name">
-                      <a href="#">Parva Patel</a>
-                    </h5>
-                    <span className="email">parvapatel12@gmail.com</span>
-                  </div>
-                </div>
-  
-                <div className="account-dropdown__body">
-                  <div className="account-dropdown__item">
-                    <a href="#">
-                      <i className="zmdi zmdi-account"></i>Account
-                    </a>
-                  </div>
-
-                  <div className="account-dropdown__item">
-                    <a href="#">
-                      <i className="zmdi zmdi-settings"></i>Settings
-                    </a>
-                  </div>
-
-                  <div className="account-dropdown__item">
-                    <a href="#">
-                      <i className="zmdi zmdi-money-box"></i>Billing
-                    </a>
-                  </div>
-                </div>
-                
-                <div className="account-dropdown__footer">
-                  <a href="#">
-                    <i className="zmdi zmdi-power"></i>Logout</a>
-                </div>
-              </div>
-            </div>
+                )
+                : (
+                  null
+                )
+            }
           </div>
-        */}
 
         </div>
-      
-      {/*    <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton>
-      */}
+
+
         <div className="tabs">
           <Link to="/" className="linkStyle">
-              Dashboard
+            Dashboard
             </Link>
-          
-          
+
+
           <Link to="/blogs" className="linkStyle">
-              Blogs
+            Blogs
             </Link>
-          
+
           <Link to="/calendar" className="linkStyle">
-              Calendar
+            Calendar
             </Link>
-            
+
           <Link to="/about" className="linkStyle">
-              About
+            About
             </Link>
-          </div>
-      </div> 
+        </div>
+      </div>
     );
   }
 }
