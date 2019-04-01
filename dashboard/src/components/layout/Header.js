@@ -59,8 +59,8 @@ export class Header extends Component {
         <div className="header-topbar">
           <img className="app-logo" src={require('../images/logo.png')} alt="logo" />
           <div className="app-name">The Programming Club App</div>
-         
-        {/*  <div className="profile">
+
+          {/*  <div className="profile">
             <img className="dp" src={require('../images/avatar-01.jpg')} alt="logo" />
             <div className="username">Parva</div>
           </div>
@@ -69,6 +69,7 @@ export class Header extends Component {
           <div className="profile" onClick={this.showMenu}>
             <img className="dp" src={require('../images/avatar-01.jpg')} alt="profile" />
             <p className="username">Parva Patel</p>
+            <p className="arrow-down">^</p>
             {
               this.state.showMenu
                 ? (
@@ -78,16 +79,17 @@ export class Header extends Component {
                       this.dropdownMenu = element;
                     }}
                   >
-                    <div className="dropitems-view-only"> 
+                    <div className="dropitems-view-only">
                       <img className="dp-big" src={require('../images/avatar-01.jpg')} alt="profile" />
-                      <div className="name-email"> 
+                      <div className="name-email">
                         <p className="username-big" >Parva Patel</p>
                         <p className="email-big">parvapatel12@gmail.com</p>
-                      </div>              
+                      </div>
                     </div>
-                    <div className="dropitems"> Menu item 1 </div>
-                    <div className="dropitems"> Menu item 2 </div>
-                    <div className="dropitems"> Menu item 3 </div>
+                    <div className="line"></div>
+                    <div className="dropitems">Account</div>
+                    <div className="dropitems">More</div>
+                    <div className="dropitems">Logout</div>
                   </div>
                 )
                 : (
@@ -104,6 +106,9 @@ export class Header extends Component {
             Dashboard
             </Link>
 
+          <Link to="/" className="linkStyle">
+            Tutorials
+            </Link>
 
           <Link to="/blogs" className="linkStyle">
             Blogs
