@@ -25,6 +25,11 @@
   color: darkblue;
 }
 
+.rich_text_own {
+  width: 50%;
+  color: darkblue;
+}
+
 .blog_time {
   padding: 80px;
   font-size: 15px;
@@ -34,4 +39,12 @@
 .blog_content {
   font-size: 15px;
   color: black;
+}
+
+.upvoted_blog{
+  color: green;
+}
+
+.downvoted_blog{
+  color: red;
 }

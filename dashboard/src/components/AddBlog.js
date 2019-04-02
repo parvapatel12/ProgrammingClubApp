@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
+import "./Blog.css";
 
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
@@ -86,8 +86,8 @@ class AddBlog extends Component {
   render() {
     const { editorState } = this.state;
     return (
-      <div>
-        <label>Title</label>
+      <div >
+        <label >Title</label>
         <br></br>
         <input type="text"
           placeholder="Type title"onEditorStateChange
@@ -100,6 +100,7 @@ class AddBlog extends Component {
         <label>Content</label>
         
         <Editor
+            className="rich_text_own"
             editorState={editorState}
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
