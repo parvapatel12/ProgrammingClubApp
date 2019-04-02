@@ -1,8 +1,8 @@
 export default {
-  apiKey: "AIzaSyA_HnBRDhy4BmjeyGqh0UpmnjN7Vxuru94",
-  authDomain: "https://sample-68a20.firebaseapp.com/",
-  databaseURL: "https://sample-68a20.firebaseio.com",
-  projectId: "sample-68a20",
-  storageBucket: "sample-68a20.appspot.com",
-  messagingSenderId: "406797468635"
+  apiKey: "AIzaSyAbKy_9ySKVg5LPBjcSl4opQWIZNkvrR8M",
+    authDomain: "temp-4d417.firebaseapp.com",
+    databaseURL: "https://temp-4d417.firebaseio.com",
+    projectId: "temp-4d417",
+    storageBucket: "temp-4d417.appspot.com",
+    messagingSenderId: "594613445600"
 };

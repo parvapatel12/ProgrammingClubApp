@@ -12,6 +12,11 @@ import firebaseConfig from "./components/config";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 //import Blogs from "./components/Blogs";
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+
 
 firebase.initializeApp(firebaseConfig);
 

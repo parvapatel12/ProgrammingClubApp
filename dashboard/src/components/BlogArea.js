@@ -22,7 +22,7 @@ class BlogArea extends Component {
       .database()
       .ref()
       .child("blog_entry");
-    this.listenBlogs();
+      this.listenBlogs();
   }
   listenBlogs() {
     this.blogRef.limitToLast(10).on("value", message => {
