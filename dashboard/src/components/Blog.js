@@ -3,7 +3,7 @@ import "./Blog.css";
 import htmlToDraft from 'html-to-draftjs';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 
-import {WebView} from 'react-native';
+//import {WebView} from 'react-native';
 
 export default class Blog extends Component {
   constructor(props) {
@@ -55,9 +55,10 @@ export default class Blog extends Component {
         <br />
         <br />
         
-        {/* <div data-container="wysiwyg"><RichTextEditor html={this.props.message.content}/></div> */}
-        <WebView html={this.props.message.contest}/>
-
+        <div dangerouslySetInnerHTML={{__html: this.props.message.content}} />
+           
+        {/* // <div contenteditable="true"> {this.props.message.content} </div> */}
+       
         <div>
         {this.props.message.taglist.map((item, index) => (
           < span>{item + "  "}</span> 
@@ -68,8 +69,8 @@ export default class Blog extends Component {
 
         {/* upvote downvote */}
         
-        <button>Upvote : { this.props.message.upvote }       </button>  
-        <button>Downvote : {this.props.message.downvote}</button>
+        <button>Upvote : { (this.props.message.upvote.length)-1 }       </button>  
+        <button>Downvote : {this.props.message.downvote.length - 1}</button>
         <br></br>
 
         {/* comment */}

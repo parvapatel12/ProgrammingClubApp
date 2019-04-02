@@ -19,8 +19,8 @@ class AddBlog extends Component {
       userName: 'Sebastian',
       title: '',
       content: ' ',
-      upvote: [],
-      downvote: [],
+      upvote: ["__S"],
+      downvote: ["__D"],
       taglist: [],
       commentlist: [],
       editorState: EditorState.createEmpty(),
@@ -46,6 +46,7 @@ class AddBlog extends Component {
   }
 
   handleSend() {
+    
     if (this.state.title ) {
       var newItem = {
         userName: this.state.userName,
@@ -97,13 +98,16 @@ class AddBlog extends Component {
         <br></br>
 
         <label>Content</label>
-        <br></br>
-        <textarea type="textarea"
-          placeholder="Type content"
-          value={this.state.content}
-          onChange={this.handleChange_content.bind(this)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-        ></textarea>
+        
+        <Editor
+            editorState={editorState}
+            wrapperClassName="demo-wrapper"
+            editorClassName="demo-editor"
+            onEditorStateChange={this.onEditorStateChange}
+          />
+          {/* <div>{this.state.taglist}</div> */}
+          <br></br>
+
         <br></br>
 
         <label>Tags</label>
@@ -124,14 +128,7 @@ class AddBlog extends Component {
             ))
             }
           </div>
-          <Editor
-            editorState={editorState}
-            wrapperClassName="demo-wrapper"
-            editorClassName="demo-editor"
-            onEditorStateChange={this.onEditorStateChange}
-          />
-          {/* <div>{this.state.taglist}</div> */}
-          <br></br>
+         
           <button
             className="form__button"
             onClick={this.handleSend.bind(this)}
