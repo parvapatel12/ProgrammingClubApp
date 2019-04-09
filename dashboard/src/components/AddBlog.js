@@ -24,13 +24,24 @@ class AddBlog extends Component {
       taglist: [],
       commentlist: [],
       editorState: EditorState.createEmpty(),
-      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,     
       currtag: ' ',
     };
     this.blogRef = firebase.database().ref().child('blog_entry');
+    this.ref=firebase.database().ref().child('blogid');
+
+    var currid=0;
+
+    firebase.database().ref().child('blogid').on("value", function(snapshot) {
+      currid=snapshot.val();
+      console.log(currid);
+   }, function (error) {
+      console.log("Error: " + error.code);
+   }); 
+
+    
   }
   onEditorStateChange = (editorState) => {
-    console.log(editorState);
     this.setState({
       editorState,
     });
@@ -45,13 +56,27 @@ class AddBlog extends Component {
     this.setState({ currtag: event.target.value });
   }
 
-  handleSend() {
+ handleSend() {
     
+    var ref=firebase.database().ref().child('blogid');
+    var currid=0;
+
+    firebase.database().ref().child('blogid').on("value", function(snapshot) {
+      currid=snapshot.val();
+     // console.log(currid);
+   }, function (error) {
+      console.log("Error: " + error.code);
+   });
+
+    
+
+    console.log('currid'+ currid);
+  //  console.log(this.state.blogid);
     if (this.state.title ) {
       var newItem = {
+        id:currid,
         userName: this.state.userName,
         title: this.state.title,
-        //content: this.state.content,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
         upvote: this.state.upvote,
         downvote: this.state.downvote,
@@ -59,7 +84,14 @@ class AddBlog extends Component {
         commentlist: this.state.commentlist,
         timestamp: firebase.database.ServerValue.TIMESTAMP
       };
+//      console.log('currid2' + currid);
 
+      ref.transaction(function(currid) {
+        return currid+1;
+     });
+      
+      //firebase.database().ref().update({blogid :currid});
+      
       this.blogRef.push(newItem);
       this.setState({ title: '' });
       this.setState({ content: '' });

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "./Blog.css";
+import Addcomment from "./Addcomment";
+import Comment from "./Comment";
+
 import htmlToDraft from 'html-to-draftjs';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import firebase from "firebase";
@@ -9,38 +12,59 @@ import firebase from "firebase";
 export default class Blog extends Component {
   constructor(props) {
     super(props);
-    //const contentBlock = htmlToDraft(this.props.message.content);
     this.state = {
       content: " ",
-      curr_user: 'Sebastian',
+      curr_user: 'Jitesh',
       upvoted:false,
-      downvoted:false
-      //contentState: ContentState.createFromBlockArray(contentBlock.contentBlocks)
+      downvoted:false,
+      viewcomments:false,
+      commentlist:false,
+      comment_obj_list:[],
+      curr_id:0,
     };
 
     this.calculate_vote();
-    //console.log(this.);
-    //set curr_user here by prop
   }
   
+
   calculate_vote()
   {
     this.state.upvoted= (this.props.message.upvote.includes(this.state.curr_user)) ? true : false;
     this.state.downvoted= (this.props.message.downvote.includes(this.state.curr_user)) ? true : false;
-    this.state.upvoted=this.state.downvoted = (this.state.upvoted || this.state.downvoted);
+    
+   // console.log(this.commentlist);
+    
+    // console.log(this.commentlist);
+  //  this.state.upvoted=this.state.downvoted = (this.state.upvoted || this.state.downvoted);
   }
   
   handleUpvote() {
     
     if(this.state.downvoted) return;
     this.props.message.upvote.push(this.state.curr_user);
-    // let blogRef=firebase
-    // .database()
-    // .ref()
-    // .child('blog_entry/' + this.props.key);
-    
-    
-  //  this.props.message.update({'upvote':this.props.message.upvote})
+
+    var tempid=this.props.message.id;
+    var upvotearray=this.props.message.upvote;
+    var curr_key;
+
+    var query = firebase.database().ref("blog_entry").orderByKey();
+   
+   query.once("value")
+  .then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+
+      var childData = childSnapshot.val();
+      
+      if(childData.id==tempid)
+      {
+        curr_key=childSnapshot.key;
+       // console.log(curr_key);
+        firebase.database().ref().child("blog_entry").child(curr_key).update({upvote : upvotearray} );
+        
+      }
+  });
+});
+
     this.setState({upvoted:true});
   }
 
@@ -48,11 +72,38 @@ export default class Blog extends Component {
     
     if(this.state.upvoted) return;
     this.props.message.downvote.push(this.state.curr_user);
+
+    var tempid=this.props.message.id;
+    var downvotearray=this.props.message.downvote;
+    var curr_key;
+
+    var query = firebase.database().ref("blog_entry").orderByKey();
+   
+   query.once("value")
+  .then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+
+      var childData = childSnapshot.val();
+      
+      if(childData.id==tempid)
+      {
+        curr_key=childSnapshot.key;
+        //console.log(curr_key);
+        firebase.database().ref().child("blog_entry").child(curr_key).update({downvote : downvotearray} );
+        
+      }
+  });
+});
+
     this.setState({downvoted:true});
   }
 
   handleChange_content(event) {
     this.setState({ content: event.target.value });
+  }
+
+  handleAddcomment(event) {
+    this.setState({ viewcomments: true });
   }
   handleKeyPress(event) {
     if (event.key !== "Enter") return;
@@ -82,14 +133,19 @@ export default class Blog extends Component {
         <div dangerouslySetInnerHTML={{__html: this.props.message.content}} />
            
         {/* // <div contenteditable="true"> {this.props.message.content} </div> */}
-       
-        <div>
-        {this.props.message.taglist.map((item, index) => (
-          < span>{item + "  "}</span> 
-        ))
-
-        }
-      </div>
+        {this.props.message.taglist ? (
+         <div>
+        
+         {this.props.message.taglist.map((item, index) => (
+           < span>{item + "  "}</span> 
+         ))
+ 
+         }
+       </div>
+      ) : (
+        <div></div>
+      )}
+        
 
         {/* upvote downvote */}
         
@@ -104,17 +160,38 @@ export default class Blog extends Component {
         <button onClick={this.handleDownvote.bind(this)}>Downvote : { (this.props.message.downvote.length)-1 }       </button>
       )} 
 
+      <button onClick={this.handleAddcomment.bind(this)}> Comment </button>
+
         
         <br></br>
 
-        {/* comment */}
-        <textarea
-          type="textarea"
-          placeholder="Type content"
-          value={this.state.content}
-          onChange={this.handleChange_content.bind(this)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-        />
+      
+          
+          { this.props.message.commentlist ? (
+            <div >
+        {this.props.message.commentlist.map(element=>
+        <Comment message={element}/>)
+        }  
+      </div>
+          ) : (                                                           
+            <div>hudd</div>
+          )
+        }
+
+              
+          
+    
+
+
+        {this.state.viewcomments ? (   
+          <div>      
+         <Addcomment message={this.props.message}/>
+         {/* <Comment message={this.state.commentlist}/> */}
+          </div>
+      ) : (
+        <div></div>
+      )}
+        
         <button>Submit</button>
         
         <div className="myclass">{}</div>
