@@ -74,7 +74,7 @@ class AddBlog extends Component {
   //  console.log(this.state.blogid);
     if (this.state.title ) {
       var newItem = {
-        id:-currid,
+        id: 1e9-currid,
         userName: this.state.userName,
         title: this.state.title,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
@@ -82,7 +82,7 @@ class AddBlog extends Component {
         downvote: this.state.downvote,
         taglist: this.state.taglist,
         commentlist: this.state.commentlist,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
+        timestamp: (firebase.database.ServerValue.TIMESTAMP)
       };
 //      console.log('currid2' + currid);
 
@@ -92,7 +92,9 @@ class AddBlog extends Component {
       
       //firebase.database().ref().update({blogid :currid});
       
-      this.blogRef.push(newItem);
+      var item=this.blogRef.push();
+      item.setWithPriority(newItem,0-Date.now());
+
       this.setState({ title: '' });
       this.setState({ content: '' });
       this.setState({ currtag: '' });

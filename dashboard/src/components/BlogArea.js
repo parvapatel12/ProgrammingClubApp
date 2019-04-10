@@ -20,6 +20,7 @@ class BlogArea extends Component {
       timestamp: 0,
       list: [],
       temp: [],
+      numofblogs:"5",
     };
     this.blogRef = firebase
       .database()
@@ -32,11 +33,20 @@ class BlogArea extends Component {
 
   
  listenBlogs() {
-    this.blogRef.limitToLast(10).on("value", message => {
+   
+
+    this.blogRef.orderByPriority().limitToFirst(20).on("value", message => {
       this.setState({
         list: Object.values(message.val())
       });
     });
+
+
+  }
+
+  handleViewMore(event)
+  {
+    this.listenBlogs();
   }
 
 
@@ -55,7 +65,7 @@ class BlogArea extends Component {
       ) : (
         <div></div>
       )}
-        
+      <button onClick={this.handleViewMore.bind(this)}>View More</button>  
       </div>
     );
   }
