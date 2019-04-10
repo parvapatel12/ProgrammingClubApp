@@ -14,7 +14,7 @@ export default class Blog extends Component {
     super(props);
     this.state = {
       content: " ",
-      curr_user: 'Jitesh',
+      curr_user: 'Dhvanee',
       upvoted:false,
       downvoted:false,
       viewcomments:false,
@@ -109,6 +109,12 @@ export default class Blog extends Component {
     if (event.key !== "Enter") return;
     this.handleSend();
   }
+
+  handleChangeView()
+  {
+    this.setState({ viewcomments: false });
+  }
+
   render() {
     return (
       
@@ -186,6 +192,7 @@ export default class Blog extends Component {
         {this.state.viewcomments ? (   
           <div>      
          <Addcomment message={this.props.message}/>
+         <button onClick={this.handleChangeView.bind(this)}>Close Comment Editor</button>
          {/* <Comment message={this.state.commentlist}/> */}
           </div>
       ) : (

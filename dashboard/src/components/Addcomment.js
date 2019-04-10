@@ -16,7 +16,7 @@ class Addcomment extends Component {
     super(props);
 
     this.state = {
-      userName: 'Sebastian',
+      userName: 'Deep',
       content: ' ',
       parentblogid:0,
       replylist: [],
@@ -65,8 +65,7 @@ class Addcomment extends Component {
       userName: this.state.userName,
       content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
       replylist: this.state.replylist,
-      timestamp: firebase.database.ServerValue.TIMESTAMP, 
-      replylist:this.state.replylist      
+      timestamp: firebase.database.ServerValue.TIMESTAMP    
       };
 
       ref.transaction(function(currid) {
@@ -114,7 +113,6 @@ class Addcomment extends Component {
       this.setState({ content: '' });
       this.setState({editorState:EditorState.createEmpty()});
     }
-
   //  window.location.reload();
   }
 
@@ -123,6 +121,7 @@ class Addcomment extends Component {
   handleKeyPress(event) {
     if (event.key !== 'Enter') return;
     this.handleSend();
+    
   }
 
 
@@ -150,6 +149,8 @@ class Addcomment extends Component {
             className="form__button"
             onClick={this.handleSend.bind(this)}
           > Submit Comment</button>
+
+
           </div>
     );
   }

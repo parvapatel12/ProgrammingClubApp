@@ -16,7 +16,7 @@ class AddBlog extends Component {
     super(props);
 
     this.state = {
-      userName: 'Sebastian',
+      userName: 'Deep',
       title: '',
       content: ' ',
       upvote: ["__S"],
@@ -74,7 +74,7 @@ class AddBlog extends Component {
   //  console.log(this.state.blogid);
     if (this.state.title ) {
       var newItem = {
-        id:currid,
+        id:-currid,
         userName: this.state.userName,
         title: this.state.title,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),

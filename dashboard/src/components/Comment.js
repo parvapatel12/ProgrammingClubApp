@@ -15,7 +15,7 @@ class Comment extends Component {
     super(props);
     this.state = {
       content: " ",
-      curr_user: 'Sebastian',
+      curr_user: 'Deep',
       curr_id:1,
       editorState: EditorState.createEmpty(),
       commentobj:0,
@@ -47,13 +47,11 @@ class Comment extends Component {
       console.log("Error: " + error.code);
    });
 
-    
-
   //  console.log(this.state.blogid);
     if (1) {
        var newItem = {
       // id:currid,
-        userName: this.state.userName,
+        userName: this.state.curr_user,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
       // timestamp: firebase.database.ServerValue.TIMESTAMP, 
        };
@@ -80,6 +78,13 @@ class Comment extends Component {
     //console.log(typeof commentarray);
     var curr_key;
 
+    var deep=this.state.commentobj;
+      deep.replylist=commentarray;
+
+      this.setState({commentobj:deep});
+
+      var reply_obj=this.state.commentobj;
+
     var query = firebase.database().ref("comment_list").orderByKey();
    
    await query.once("value")
@@ -91,8 +96,21 @@ class Comment extends Component {
       if(childData.id==tempid)
       {
         curr_key=childSnapshot.key;
-        firebase.database().ref().child("comment_list").child(curr_key).update({replylist : commentarray} ); 
+
+        firebase.database().ref("comment_list").child(curr_key).set(
+        { id:reply_obj.id,
+          userName:reply_obj.userName,
+          content:reply_obj.content,
+          replylist:reply_obj.replylist,
+          timestamp:reply_obj.timestamp
+        }); 
       }
+
+      // id:currid,
+      // userName: this.state.userName,
+      // content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
+      // replylist: this.state.replylist,
+      // timestamp: firebase.database.ServerValue.TIMESTAMP   
   });
 });
 
@@ -105,6 +123,8 @@ class Comment extends Component {
 
       this.setState({commentobj:deep});
     }
+
+    this.setState({viewreply:false});
   }
 
 
@@ -142,6 +162,11 @@ handleAddreply(event) {
   this.setState({ viewreply: true });
 }
 
+// closeEditor(event)
+// {
+//   this.setState({})
+// }
+
 
   handleChange_content(event) {
     this.setState({ content: event.target.value });
@@ -158,7 +183,7 @@ handleAddreply(event) {
       <div>
         
         
-          <div> UserName : {this.state.commentobj.Username}</div>
+          <div> UserName : {this.state.commentobj.userName}</div>
           
         
         <br></br>
@@ -177,6 +202,8 @@ handleAddreply(event) {
           {/* <div>{this.state.taglist}</div> */}
           <br></br>
 
+          {/* <button onClick={this.closeEditor}>Close Editor</button> */}
+
         <br></br>       
          
           <button
@@ -189,7 +216,7 @@ handleAddreply(event) {
         <div></div>
       )}
 
-   {/* { this.state.commentobj.replylist ? (
+   { this.state.commentobj.replylist ? (
             <div >
         {this.state.commentobj.replylist.map(element=>
         <Reply message={element}/>)
@@ -198,7 +225,7 @@ handleAddreply(event) {
           ) : (                                                           
             <div>No replies</div>
           )
-        } */}
+        }
       
       </div>
       

@@ -23,24 +23,24 @@ class BlogArea extends Component {
     };
     this.blogRef = firebase
       .database()
-      .ref()
-      .child("blog_entry");
+      .ref("blog_entry");
       
       this.listenBlogs();
-
       
   }
 
 
   
-  listenBlogs() {
+ listenBlogs() {
     this.blogRef.limitToLast(10).on("value", message => {
       this.setState({
         list: Object.values(message.val())
       });
     });
-    this.state.list.reverse();
   }
+
+
+
 
   render() {
     return (

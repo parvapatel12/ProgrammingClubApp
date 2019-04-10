@@ -18,37 +18,37 @@ class Reply extends Component {
 
    // console.log("hello");
 
-    this.getobj();
+    //this.getobj();
 
   }
 
- async getobj()
-  {
-    var tempid=this.props.message;
-    var temp_obj;
-    var curr_key;
+//  async getobj()
+//   {
+//     var tempid=this.props.message;
+//     var temp_obj;
+//     var curr_key;
 
 
-    var query = firebase.database().ref("reply_list").orderByKey();
+//     var query = firebase.database().ref("reply_list").orderByKey();
    
-   await query.once("value")
-  .then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
+//    await query.once("value")
+//   .then(function(snapshot) {
+//     snapshot.forEach(function(childSnapshot) {
 
-      var childData = childSnapshot.val();
+//       var childData = childSnapshot.val();
 
-      //console.log(childData.id);
-      if(childData.id==tempid)
-      {
-        curr_key=childSnapshot.key;
-        temp_obj=childData;
-      }
-  });
-});
+//       //console.log(childData.id);
+//       if(childData.id==tempid)
+//       {
+//         curr_key=childSnapshot.key;
+//         temp_obj=childData;
+//       }
+//   });
+// });
 
-this.setState({commentobj:temp_obj});
-//console.log(this.commentobj);
-}
+// this.setState({commentobj:temp_obj});
+// //console.log(this.commentobj);
+// }
 
 
   handleChange_content(event) {
@@ -63,9 +63,9 @@ this.setState({commentobj:temp_obj});
 
       
       <div>
-        <div> UserName : {this.state.commentobj.Username}</div>
+        <div> UserName : {this.props.message.userName}</div>
         <br></br>
-        <div dangerouslySetInnerHTML={{__html: this.state.commentobj.content}} />
+        <div dangerouslySetInnerHTML={{__html: this.props.message.content}} />
       </div>
         
       
