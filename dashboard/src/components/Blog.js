@@ -31,11 +31,7 @@ export default class Blog extends Component {
   {
     this.state.upvoted= (this.props.message.upvote.includes(this.state.curr_user)) ? true : false;
     this.state.downvoted= (this.props.message.downvote.includes(this.state.curr_user)) ? true : false;
-    
-   // console.log(this.commentlist);
-    
-    // console.log(this.commentlist);
-  //  this.state.upvoted=this.state.downvoted = (this.state.upvoted || this.state.downvoted);
+
   }
   
   handleUpvote() {
@@ -198,8 +194,12 @@ export default class Blog extends Component {
           { this.props.message.commentlist ? (
             <div >
         {this.props.message.commentlist.map(element=>
+        (element)?
+        (
         <Comment message={element}/>)
-        }  
+        : (<div></div> )
+        )
+      }  
       </div>
           ) : (                                                           
             <div>hudd</div>

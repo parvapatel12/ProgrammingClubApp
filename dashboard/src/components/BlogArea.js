@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Blog from "./Blog";
 import Addcomment from "./Addcomment";
 
+import { Link } from "react-router-dom";
 import firebase from "firebase";
 
 class BlogArea extends Component {
@@ -55,7 +56,9 @@ class BlogArea extends Component {
   render() {
     return (
       <div>
-        
+        <Link to="/utsav" className="linkStyle">
+            Add new Blog
+            </Link>
         {this.state.list ? (   
           <div>      
          {this.state.list.map((item, index) => (
@@ -66,6 +69,7 @@ class BlogArea extends Component {
         <div></div>
       )}
       <button onClick={this.handleViewMore.bind(this)}>View More</button>  
+      
       </div>
     );
   }

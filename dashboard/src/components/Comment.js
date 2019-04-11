@@ -179,7 +179,8 @@ handleAddreply(event) {
     const { editorState } = this.state;
     return (
 
-      
+      (this.state.commentobj)?
+      (
       <div>
         
         
@@ -228,7 +229,7 @@ handleAddreply(event) {
         }
       
       </div>
-      
+      ):( <div></div>)
         
       
     );

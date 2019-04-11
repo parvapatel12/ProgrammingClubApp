@@ -41,11 +41,13 @@ class App extends Component {
               path="/blogs"
               render={props => (
                 <React.Fragment>
-                  <AddBlog />
+                  {/* <AddBlog /> */}
+                  
                   <BlogArea />
                 </React.Fragment>
               )}
             />
+            <Route path="/addblog" component={AddBlog}/>
             <Route path="/calendar" component={NewCalendar} />
             <Route path="/about" component={About} />
           </div>

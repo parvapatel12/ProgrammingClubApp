@@ -100,6 +100,8 @@ class AddBlog extends Component {
       this.setState({ currtag: '' });
       this.setState({ taglist: [] });
     }
+    this.props.history.push("/blogs");
+    
   }
 
   handleAddTag() {
