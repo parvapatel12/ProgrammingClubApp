@@ -102,6 +102,28 @@ export default class Blog extends Component {
     this.setState({ content: event.target.value });
   }
 
+  handleRemove(event)
+  {
+    var curr_key;
+    var tempid=this.props.message.id;
+    var query = firebase.database().ref("blog_entry").orderByKey();
+    query.once("value")
+  .then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+
+      var childData = childSnapshot.val();
+      
+      if(childData.id==tempid)
+      {
+        curr_key=childSnapshot.key;
+        //console.log(curr_key);
+        firebase.database().ref().child("blog_entry").child(curr_key).remove();
+        
+      }
+  });  
+});
+  }
+
   handleAddcomment(event) {
     this.setState({ viewcomments: true });
   }
@@ -199,7 +221,9 @@ export default class Blog extends Component {
         <div></div>
       )}
         
-        <button>Submit</button>
+        <button onClick={this.handleRemove.bind(this)}>Remove Blog</button>
+        
+
         
         <div className="myclass">{}</div>
       </div>
