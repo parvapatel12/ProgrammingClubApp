@@ -5,7 +5,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "./Blog.css";
 
 import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+//import htmlToDraft from 'html-to-draftjs';
 
 
 import firebase from "firebase";
@@ -16,104 +16,102 @@ class Addcomment extends Component {
     super(props);
 
     this.state = {
-      userName: 'Deep',
+      userName: 'parvapatel12',
       content: ' ',
-      parentblogid:0,
+      parentblogid: 0,
       replylist: [],
       editorState: EditorState.createEmpty(),
       timestamp: firebase.database.ServerValue.TIMESTAMP,
-      commentlist:[]     
+      commentlist: []
     };
     this.commentRef = firebase.database().ref().child('comment_list');
-    this.ref=firebase.database().ref().child('commentid');
+    this.ref = firebase.database().ref().child('commentid');
 
-    var currid=0;
+    var currid = 0;
 
-    firebase.database().ref().child('commentid').on("value", function(snapshot) {
-      currid=snapshot.val();
-   }, function (error) {
+    firebase.database().ref().child('commentid').on("value", function (snapshot) {
+      currid = snapshot.val();
+    }, function (error) {
       console.log("Error: " + error.code);
-   }); 
+    });
 
-   console.log(this.props.message.id);
+    console.log(this.props.message.id);
 
-    
+
   }
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
     });
   };
- 
 
- handleSend() {
-    
-  var currid;
-    var ref=firebase.database().ref().child('commentid');
-    ref.on("value", function(snapshot) {
-      currid=snapshot.val();
-   }, function (error) {
+
+  handleSend() {
+
+    var currid;
+    var ref = firebase.database().ref().child('commentid');
+    ref.on("value", function (snapshot) {
+      currid = snapshot.val();
+    }, function (error) {
       console.log("Error: " + error.code);
-   });
+    });
 
-    
 
-  //  console.log(this.state.blogid);
+
+    //  console.log(this.state.blogid);
     if (1) {
       var newItem = {
-      id:currid,
-      userName: this.state.userName,
-      content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
-      replylist: this.state.replylist,
-      timestamp: firebase.database.ServerValue.TIMESTAMP    
+        id: currid,
+        userName: this.state.userName,
+        content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
+        replylist: this.state.replylist,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
       };
 
-      ref.transaction(function(currid) {
-        return currid+1;
-     });
-      
+      ref.transaction(function (currid) {
+        return currid + 1;
+      });
+
       //firebase.database().ref().update({blogid :currid});
-      
+
 
       this.commentRef.push(newItem);
-     currid-=1;
-      var tempid=this.props.message.id;
-    var commentarray=(this.props.message.commentlist);
+      currid -= 1;
+      var tempid = this.props.message.id;
+      var commentarray = (this.props.message.commentlist);
 
-    if(typeof commentarray ==='undefined')
-    {
-    commentarray=new Array(1).fill(currid);
-    }
-    else
-    commentarray.push(currid);
-    
-    //console.log(typeof commentarray);
-    var curr_key;
-
-    var query = firebase.database().ref("blog_entry").orderByKey();
-   
-   query.once("value")
-  .then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-
-      var childData = childSnapshot.val();
-      console.log(tempid);
-      if(childData.id==tempid)
-      {
-        curr_key=childSnapshot.key;
-        firebase.database().ref().child("blog_entry").child(curr_key).update({commentlist : commentarray} );
-        
+      if (typeof commentarray === 'undefined') {
+        commentarray = new Array(1).fill(currid);
       }
-  });
-});
+      else
+        commentarray.push(currid);
+
+      //console.log(typeof commentarray);
+      var curr_key;
+
+      var query = firebase.database().ref("blog_entry").orderByKey();
+
+      query.once("value")
+        .then(function (snapshot) {
+          snapshot.forEach(function (childSnapshot) {
+
+            var childData = childSnapshot.val();
+            console.log(tempid);
+            if (childData.id == tempid) {
+              curr_key = childSnapshot.key;
+              firebase.database().ref().child("blog_entry").child(curr_key).update({ commentlist: commentarray });
+
+            }
+          });
+        });
 
 
       //firebase.database().ref().child("blog_entry").child(this.props.message.key);
       // this.setState({ title: '' });
       this.setState({ content: '' });
-      this.setState({editorState:EditorState.createEmpty()});
+      this.setState({ editorState: EditorState.createEmpty() });
     }
-  //  window.location.reload();
+    //  window.location.reload();
   }
 
 
@@ -121,37 +119,29 @@ class Addcomment extends Component {
   handleKeyPress(event) {
     if (event.key !== 'Enter') return;
     this.handleSend();
-    
+
   }
 
 
   render() {
     const { editorState } = this.state;
     return (
-      <div >
-       
-
-        <label>Content</label>
-        
+      <div className="add-comment">
         <Editor
-            className="rich_text_own"
-            editorState={editorState}
-            wrapperClassName="demo-wrapper"
-            editorClassName="demo-editor"
-            onEditorStateChange={this.onEditorStateChange}
-          />
-          {/* <div>{this.state.taglist}</div> */}
-          <br></br>
+          className="rich_text_own"
+          editorState={editorState}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onEditorStateChange}
+        />
+        {/* <div>{this.state.taglist}</div> */}
 
-        <br></br>       
-         
-          <button
-            className="form__button"
-            onClick={this.handleSend.bind(this)}
-          > Submit Comment</button>
-
-
-          </div>
+        <div 
+          className="submit-comment-btn"
+          onClick={this.handleSend.bind(this)}
+        >Submit Comment</div>
+        <div className="for-space"></div>
+      </div>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Blog from "./Blog";
-import Addcomment from "./Addcomment";
+//import Addcomment from "./Addcomment";
+import "./Blog.css";
 
 import { Link } from "react-router-dom";
 import firebase from "firebase";
@@ -55,10 +56,14 @@ class BlogArea extends Component {
 
   render() {
     return (
-      <div>
-        <Link to="/utsav" className="linkStyle">
-            Add new Blog
-            </Link>
+      <div className="blog-main-page">
+
+        <div className="name">Blogs</div>
+
+          <Link to="/addblog" className="Add-Blog-button">
+              +
+              </Link>
+        
         {this.state.list ? (   
           <div>      
          {this.state.list.map((item, index) => (
@@ -74,8 +79,6 @@ class BlogArea extends Component {
     );
   }
 }
-const Mystyle = {
-  padding: "50px"
-};
+
 
 export default BlogArea;

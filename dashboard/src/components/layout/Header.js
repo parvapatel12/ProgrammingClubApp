@@ -114,6 +114,11 @@ export class Header extends Component {
             Blogs
             </Link>
 
+          <Link to="/blogs" className="linkStyle">
+            Discussion Forum
+            </Link>
+
+
           <Link to="/calendar" className="linkStyle">
             Calendar
             </Link>
@@ -122,6 +127,7 @@ export class Header extends Component {
             About
             </Link>
         </div>
+        {/*<div className="timepass">hello</div>*/}
       </div>
     );
   }

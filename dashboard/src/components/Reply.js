@@ -62,10 +62,9 @@ class Reply extends Component {
     return (
 
       
-      <div>
-        <div> UserName : {this.props.message.userName}</div>
-        <br></br>
-        <div dangerouslySetInnerHTML={{__html: this.props.message.content}} />
+      <div className="replyy">
+        <div className="reply-username">[{this.props.message.userName}]</div>
+        <div className="reply-content" dangerouslySetInnerHTML={{__html: this.props.message.content}} />
       </div>
         
       
