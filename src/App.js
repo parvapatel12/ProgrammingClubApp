@@ -13,6 +13,13 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 //import Blogs from "./components/Blogs";
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+import TutorialArea from "./components/TutorialArea";
+import TutorialPage from "./components/TutorialPage";
+import AddTutorial from "./components/AddTutorial";
+
+
 firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
@@ -38,6 +45,24 @@ class App extends Component {
                 <React.Fragment>
                   <AddBlog />
                   <BlogArea />
+                </React.Fragment>
+              )}
+            />
+            <Route
+              exact
+              path="/Tutorial"
+              render={props => (
+                <React.Fragment>
+                  <AddTutorial />
+                  <TutorialArea />
+                </React.Fragment>
+              )}
+            />
+            <Route
+              path="/Tutorial/:id"
+              render={props => (
+                <React.Fragment>
+                  <TutorialPage {...props}/>
                 </React.Fragment>
               )}
             />

@@ -106,7 +106,7 @@ export class Header extends Component {
             Dashboard
             </Link>
 
-          <Link to="/" className="linkStyle">
+          <Link to="/Tutorial" className="linkStyle">
             Tutorials
             </Link>
 
@@ -114,7 +114,7 @@ export class Header extends Component {
             Blogs
             </Link>
 
-          <Link to="/blogs" className="linkStyle">
+          <Link to="/discussion" className="linkStyle">
             Discussion Forum
             </Link>
 
