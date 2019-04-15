@@ -13,7 +13,7 @@ class BlogArea extends Component {
     this.state = {
       userName: "User",
       title: "",
-      blogid:0,
+      blogid: 0,
       content: " ",
       upvote: 0,
       downvote: 0,
@@ -22,63 +22,50 @@ class BlogArea extends Component {
       timestamp: 0,
       list: [],
       temp: [],
-      numofblogs:"5",
+      numofblogs: "5"
     };
-    this.blogRef = firebase
-      .database()
-      .ref("blog_entry");
-      
-      this.listenBlogs();
-      
-  }
+    this.blogRef = firebase.database().ref("blog_entry");
 
-
-  
- listenBlogs() {
-   
-
-    this.blogRef.orderByPriority().limitToFirst(20).on("value", message => {
-      this.setState({
-        list: Object.values(message.val())
-      });
-    });
-
-
-  }
-
-  handleViewMore(event)
-  {
     this.listenBlogs();
   }
 
+  listenBlogs() {
+    this.blogRef
+      .orderByPriority()
+      .limitToFirst(20)
+      .on("value", message => {
+        this.setState({
+          list: Object.values(message.val())
+        });
+      });
+  }
 
-
+  handleViewMore(event) {
+    this.listenBlogs();
+  }
 
   render() {
     return (
       <div className="blog-main-page">
-
         <div className="name">Blogs</div>
 
-          <Link to="/addblog" className="Add-Blog-button">
-              +
-              </Link>
-        
-        {this.state.list ? (   
-          <div>      
-         {this.state.list.map((item, index) => (
-          <Blog key={index} message={item} />
-        ))}
+        <Link to="/header/addblog" className="Add-Blog-button">
+          +
+        </Link>
+
+        {this.state.list ? (
+          <div>
+            {this.state.list.map((item, index) => (
+              <Blog key={index} message={item} />
+            ))}
           </div>
-      ) : (
-        <div></div>
-      )}
-      <button onClick={this.handleViewMore.bind(this)}>View More</button>  
-      
+        ) : (
+          <div />
+        )}
+        <button onClick={this.handleViewMore.bind(this)}>View More</button>
       </div>
     );
   }
 }
-
 
 export default BlogArea;

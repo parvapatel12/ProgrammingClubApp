@@ -11,28 +11,45 @@ import BlogArea from "./components/BlogArea";
 import DiscussionArea from "./components/DiscussionArea";
 import firebase from "firebase";
 import firebaseConfig from "./components/config";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 //import Blogs from "./components/Blogs";
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import TutorialArea from "./components/TutorialArea";
 import TutorialPage from "./components/TutorialPage";
 import AddTutorial from "./components/AddTutorial";
-
+import LoginPage from "./components/LoginPage";
+import { Redirect } from "react-router";
 
 firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
+  // state = {
+  //   start: true
+  // };
+  // onStart = () => {
+  //   this.setState({ start: false });
+  //   return <Redirect to="/login" />;
+  // };
   render() {
+    // {
+    //   this.onStart();
+    // }
     return (
       <Router>
         <div className="App" style={Appstyle}>
           <div className="contain">
-            <Header />
-            <Route
+            <Route exact path="/" render={() => <Redirect to="/login" />} />
+            {/* <Redirect from="/" to="/login" /> */}
+            {/* {this.state.start ? this.onStart() : <React.Fragment />} */}
+            <Route path="/login" component={LoginPage} />
+            {/* <LoginPage /> */}
+            <Route path="/header" component={Header} />
+            {/* <Header /> */}
+            {/* <Route
               exact
               path="/"
               render={props => (
@@ -40,10 +57,10 @@ class App extends Component {
                   <Dashboard />
                 </React.Fragment>
               )}
-            />
+            /> */}
             <Route
               exact
-              path="/blogs"
+              path="/header/blogs"
               render={props => (
                 <React.Fragment>
                   {/* <AddBlog /> */}
@@ -51,10 +68,11 @@ class App extends Component {
                 </React.Fragment>
               )}
             />
-            <Route path="/addblog" component={AddBlog}/>
+            <Route path="/header/addblog" component={AddBlog} />
+            <Route path="/header/dashboard" component={Dashboard} />
             <Route
               exact
-              path="/discussion"
+              path="/header/discussion"
               render={props => (
                 <React.Fragment>
                   {/* <AddBlog /> */}
@@ -62,11 +80,10 @@ class App extends Component {
                 </React.Fragment>
               )}
             />
-            <Route path="/adddiscussion" component={AddDiscussion}/>
+            <Route path="/header/adddiscussion" component={AddDiscussion} />
             <Route
               exact
-              path="/Tutorial"
-        
+              path="/header/Tutorial"
               render={props => (
                 <React.Fragment>
                   <AddTutorial />
@@ -75,15 +92,15 @@ class App extends Component {
               )}
             />
             <Route
-              path="/Tutorial/:id"
+              path="/header/Tutorial/:id"
               render={props => (
                 <React.Fragment>
-                  <TutorialPage {...props}/>
+                  <TutorialPage {...props} />
                 </React.Fragment>
               )}
             />
-            <Route path="/calendar" component={NewCalendar} />
-            <Route path="/about" component={About} />
+            <Route path="/header/calendar" component={NewCalendar} />
+            <Route path="/header/about" component={About} />
           </div>
         </div>
       </Router>
@@ -92,7 +109,7 @@ class App extends Component {
 }
 const Appstyle = {
   padding: "0px",
-  margin: "0px",
+  margin: "0px"
 };
 
 export default App;
