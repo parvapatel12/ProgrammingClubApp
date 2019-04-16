@@ -27,12 +27,12 @@ class AddDiscussion extends Component {
       timestamp: firebase.database.ServerValue.TIMESTAMP,     
       currtag: ' ',
     };
-    this.blogRef = firebase.database().ref().child('blog_entry');
-    this.ref=firebase.database().ref().child('blogid');
+    this.discussionRef = firebase.database().ref().child('discussion_entry');
+    this.ref=firebase.database().ref().child('discussionid');
 
     var currid=0;
 
-    firebase.database().ref().child('blogid').on("value", function(snapshot) {
+    firebase.database().ref().child('discussionid').on("value", function(snapshot) {
       currid=snapshot.val();
       console.log(currid);
    }, function (error) {
@@ -58,10 +58,10 @@ class AddDiscussion extends Component {
 
  handleSend() {
     
-    var ref=firebase.database().ref().child('blogid');
+    var ref=firebase.database().ref().child('discussionid');
     var currid=0;
 
-    firebase.database().ref().child('blogid').on("value", function(snapshot) {
+    firebase.database().ref().child('discussionid').on("value", function(snapshot) {
       currid=snapshot.val();
      // console.log(currid);
    }, function (error) {
@@ -92,7 +92,7 @@ class AddDiscussion extends Component {
       
       //firebase.database().ref().update({blogid :currid});
       
-      var item=this.blogRef.push();
+      var item=this.discussionRef.push();
       item.setWithPriority(newItem,0-Date.now());
 
       this.setState({ title: '' });
@@ -100,7 +100,7 @@ class AddDiscussion extends Component {
       this.setState({ currtag: '' });
       this.setState({ taglist: [] });
     }
-    this.props.history.push("/blogs");
+    this.props.history.push("/discussion");
     
   }
 
@@ -123,7 +123,7 @@ class AddDiscussion extends Component {
     const { editorState } = this.state;
     return (
       <div >
-        <label >Title</label>
+        <label >Title  HELLO</label>
         <br></br>
         <input type="text"
           placeholder="Type title"onEditorStateChange

@@ -147,12 +147,14 @@
     color: rgba(0, 255, 162, 1);
     font-size: 30px;
     line-height: 93px;  
+    user-select: none;
 }
 .dropitems:hover {
     color: white;
     background-color: rgb(17, 107, 95);
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    user-select: none;
 }
 
 

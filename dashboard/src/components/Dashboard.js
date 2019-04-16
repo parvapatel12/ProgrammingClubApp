@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import firebase from "firebase";
+import "./css/recommendation.css";
 
 var c = 0;
 var tags_arr = [];
@@ -45,8 +46,8 @@ class dashboard extends Component {
     await firebase
       .database()
       .ref("/")
-      .once("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
           if (c == 0) {
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
@@ -63,7 +64,7 @@ class dashboard extends Component {
     console.log(tags_arr);
 
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
       var txt = "";
       if (this.readyState == 4 && this.status == 200) {
         var json = JSON.parse(this.responseText);
@@ -174,15 +175,17 @@ class dashboard extends Component {
           data = data + "<div id='problem'>";
           data =
             data +
-            "Problem Name: " +
+            "<div id='pb-name'>Problem Name: " +
             tag_dif_arr["implementation"]["easy"][x]["name"] +
-            "<br>";
+            "</div>";
+
           data =
             data +
-            "Rating: " +
+            "<div id='pb-rat'>Rating: " +
             tag_dif_arr["implementation"]["easy"][x]["rating"] +
-            "<br>";
-          data = data + "Tags: ";
+            "</div>";
+
+          data = data + "<div id='pb-tags'>Tags: ";
           for (var y in tag_dif_arr["implementation"]["easy"][x]["tags"]) {
             var ny = parseInt(y);
             if (
@@ -197,14 +200,14 @@ class dashboard extends Component {
               data =
                 data +
                 tag_dif_arr["implementation"]["easy"][x]["tags"][y] +
-                "<br>";
+                "</div>";
             }
           }
           data =
             data +
             '<a href="' +
             tag_dif_arr["implementation"]["easy"][x]["link"] +
-            '"> Solve </a><br>';
+            '" id="pb-solve"> Solve </a>';
           data = data + "<br>";
           data = data + "</div>";
         }
@@ -231,17 +234,11 @@ class dashboard extends Component {
     var data = "";
     for (var x in tag_dif_arr[this.state.tag][this.state.type]) {
       data = data + "<div id='problem'>";
-      data =
-        data +
-        "Problem Name: " +
-        tag_dif_arr[this.state.tag][this.state.type][x]["name"] +
-        "<br>";
-      data =
-        data +
-        "Rating: " +
-        tag_dif_arr[this.state.tag][this.state.type][x]["rating"] +
-        "<br>";
-      data = data + "Tags: ";
+      data = data + "<div id='pb-name'>Problem Name: " +
+        tag_dif_arr[this.state.tag][this.state.type][x]["name"] + "</div>";
+      data = data + "<div id='pb-rat'>Rating: " +
+        tag_dif_arr[this.state.tag][this.state.type][x]["rating"] + "</div>";
+      data = data + "<div id='pb-tags'>Tags: ";
       for (var y in tag_dif_arr[this.state.tag][this.state.type][x]["tags"]) {
         var ny = parseInt(y);
         if (
@@ -256,7 +253,7 @@ class dashboard extends Component {
           data =
             data +
             tag_dif_arr[this.state.tag][this.state.type][x]["tags"][y] +
-            "<br>";
+            "</div>";
         }
       }
       //data=data+tag_dif_arr[this.state.tag][this.state.type][x]["tag"]+"<br>";
@@ -264,7 +261,7 @@ class dashboard extends Component {
         data +
         '<a href="' +
         tag_dif_arr[this.state.tag][this.state.type][x]["link"] +
-        '"> Solve </a><br>';
+        '" id="pb-solve"> Solve </a>';
       data = data + "<br>";
       data = data + "</div>";
     }
@@ -302,53 +299,69 @@ class dashboard extends Component {
       this.displayProblems();
     }
     return (
-      <div className="container">
+      <div className="reco-main-page">
+
+        <div className="name">Recommendations</div>
+        <div className="selection">Please select the difficulty of the problems you want to solve.</div>
         <div className="row mt-5">
           <div className="col-sm-12">
             <form onSubmit={this.handleFormSubmit}>
+
               <div className="form-check">
-                <label>
+                <label className="labels">
                   <input
                     type="radio"
                     name="react-tips"
                     value="easy"
-                    checked={this.state.type === "easy"}
+                    checked={this.state.type == "easy"}
                     onChange={this.handleOptionChange}
-                    className="form-check-input"
+                    className="radio"
                   />
-                  Easy
+
                 </label>
               </div>
+
               <div className="form-check">
-                <label>
+                <label className="labels">
                   <input
                     type="radio"
                     name="react-tips"
                     value="medium"
-                    checked={this.state.type === "medium"}
+                    checked={this.state.type == "medium"}
                     onChange={this.handleOptionChange}
-                    className="form-check-input"
+                    className="radio"
                   />
-                  Medium
+
                 </label>
               </div>
+
               <div className="form-check">
-                <label>
+                <label className="labels">
                   <input
                     type="radio"
                     name="react-tips"
                     value="hard"
-                    checked={this.state.type === "hard"}
+                    checked={this.state.type == "hard"}
                     onChange={this.handleOptionChange}
-                    className="form-check-input"
+                    className="radio"
                   />
-                  Hard
+
                 </label>
               </div>
             </form>
           </div>
+          <div className="e-m-t">
+            <div className="easy">Easy</div>
+            <div className="medium">Medium</div>
+            <div className="tough">Tough</div>
+          </div>
         </div>
-        <button onClick={this.showMenu}>Tags</button>
+
+        <div className="tags-for-questions" onClick={this.showMenu}>
+          If you want specific tags, please select one:
+          <div className="tags-btn">Tags</div>            
+        </div>
+        
         {this.state.showMenu ? (
           <div className="menu">
             <button onClick={this.selectTag} value="implementation">

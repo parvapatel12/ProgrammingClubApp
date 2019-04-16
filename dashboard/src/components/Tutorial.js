@@ -71,7 +71,7 @@ export default class Tutorial extends Component {
     return (
     <div className="message">
 
-    <Link to={{ pathname:`/Tutorial/${this.props.message.title}`, state: {...this.props} }}> {this.props.message.title} </Link>
+    <Link to={{ pathname:`/header/Tutorial/${this.props.message.title}`, state: {...this.props} }}> {this.props.message.title} </Link>
 
     </div> 
     );

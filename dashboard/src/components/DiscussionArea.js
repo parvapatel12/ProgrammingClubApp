@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Discussion from "./Discussion";
-//import Addcomment from "./Addcomment";
+import Addcomment from "./Addcomment";
 import "./Blog.css";
 
 import { Link } from "react-router-dom";
 import firebase from "firebase";
+
+
 
 class DiscussionArea extends Component {
   constructor(props) {
@@ -13,70 +15,83 @@ class DiscussionArea extends Component {
     this.state = {
       userName: "User",
       title: "",
-      blogid:0,
-      content: " ",
-      upvote: 0,
-      downvote: 0,
-      taglist: [],
-      commentlist: [],
-      timestamp: 0,
       list: [],
-      temp: [],
-      numofblogs:"5",
+      check: []
     };
-    this.blogRef = firebase
+    this.discussionRef = firebase
       .database()
-      .ref("blog_entry");
+      .ref("discussion_entry");
       
-      this.listenBlogs();
+    this.listenDiscussions();
       
   }
 
 
   
- listenBlogs() {
+ async listenDiscussions() {
    
-
-    this.blogRef.orderByPriority().limitToFirst(20).on("value", message => {
-      this.setState({
+    
+    await this.discussionRef.orderByPriority().limitToFirst(20).on("value", message => {
+    this.setState({
         list: Object.values(message.val())
       });
+      
+      var x= Object.values(message.val())
+      var temp1=this.state.check;  
+      x.forEach(element => {
+        var y = element;
+        var tags= y.taglist;  
+        if(tags)
+        {
+          tags.forEach(element => {
+          if(!temp1.includes(element))
+            temp1.push(element);
+            return;
+        });
+        }
+      });
+      this.setState({check:temp1});
+   
     });
-
-
   }
 
   handleViewMore(event)
   {
-    this.listenBlogs();
+    this.listenDiscussions();
   }
 
 
 
 
   render() {
+
     return (
+      
       <div className="blog-main-page">
 
-        <div className="name">Discussion</div>
+         <div className="name">Discussion</div>
 
-          <Link to="/addDiscussion" className="Add-Blog-button">
-              +
-          </Link>
-        
-        {this.state.list ? (   
-          <div>      
-         {this.state.list.map((item, index) => (
-          <Discussion key={index} message={item} />
-        ))}
+           <Link to="/header/adddiscussion" className="Add-Blog-button">
+               +
+           </Link>
+
+      {/* <button onClick={this.handleViewMore.bind(this)}>View Once More</button>   */}
+      
+        {this.state.check ? (   
+          <div>    
+          
+         {this.state.check.map((item, index) => (
+          <Discussion key={index} message={item}/>
+          ))
+         }
           </div>
       ) : (
-        <div> </div>
+        <div></div>
       )}
-      <button onClick={this.handleViewMore.bind(this)}>View More</button>  
-      
       </div>
     );
+  
+  
   }
 }
 

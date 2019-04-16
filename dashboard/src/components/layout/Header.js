@@ -6,6 +6,11 @@ import "./Header.css";
 //import Dropdown from 'react-bootstrap/Dropdown';
 //import {Navbar, Nav, NavDropdown, Form, FormControl, Button} from 'bootstrap';
 //import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import firebase from "firebase";
+import { Redirect } from "react-router-dom";
+//import console = require("console");
+
+
 
 export class Header extends Component {
   refreshPage = () => {
@@ -22,6 +27,9 @@ export class Header extends Component {
 
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
+    this.state = {
+      redirect: false
+    };
   }
 
   showMenu(event) {
@@ -37,11 +45,24 @@ export class Header extends Component {
       this.setState({ showMenu: false }, () => {
         document.removeEventListener("click", this.closeMenu);
       });
-    }
+    } 
   }
   // till here...
 
+  handleonClick() {
+    /*console.log(event.target);
+    closeMenu(event);*/
+    this.setState({ showMenu: false }, () => {
+      document.removeEventListener("click", this.closeMenu);
+    });
+    firebase.auth().signOut();
+    this.setState({ redirect: true });
+  };
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/login" />;
+    }
     return (
       <div className="headerStyle">
         <div className="header-topbar">
@@ -87,7 +108,7 @@ export class Header extends Component {
                 <div className="line" />
                 <div className="dropitems">Account</div>
                 <div className="dropitems">More</div>
-                <div className="dropitems">Logout</div>
+                <div className="dropitems" onClick={this.handleonClick}>Logout</div>
               </div>
             ) : null}
           </div>
@@ -106,7 +127,7 @@ export class Header extends Component {
             Blogs
           </Link>
 
-          <Link to="/header/discussion" className="linkStyle">
+          <Link to="/header/Discussion" className="linkStyle">
             Discussion Forum
           </Link>
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/layout/Header";
-import About from "./components/pages/About";
+import About from "./components/About";
 import Dashboard from "./components/Dashboard";
 //import Blogaddition from "./components/addBlog";
 //import Calendar from "./components/Calendar";
@@ -23,6 +23,8 @@ import TutorialPage from "./components/TutorialPage";
 import AddTutorial from "./components/AddTutorial";
 import LoginPage from "./components/LoginPage";
 import { Redirect } from "react-router";
+
+import DiscussionPage from "./components/DiscussionPage";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -70,17 +72,44 @@ class App extends Component {
             />
             <Route path="/header/addblog" component={AddBlog} />
             <Route path="/header/dashboard" component={Dashboard} />
-            <Route
+          {/*  <Route
               exact
               path="/header/discussion"
               render={props => (
-                <React.Fragment>
+              <React.Fragment>			*/}
                   {/* <AddBlog /> */}
+          {/*        <DiscussionArea />
+                </React.Fragment>
+              )}
+            />
+              <Route path="/header/adddiscussion" component={AddDiscussion} />	*/}
+
+    	<Route
+              exact
+              path="/header/discussion"
+        
+              render={props => (
+                <React.Fragment>
+                  {/* <AddDiscussion /> */}
                   <DiscussionArea />
                 </React.Fragment>
               )}
             />
-            <Route path="/header/adddiscussion" component={AddDiscussion} />
+            <Route
+              path="/header/discussion/:id"
+              render={props => (
+                <React.Fragment>
+                  <DiscussionPage {...props}/>
+                </React.Fragment>
+              )}
+            /> 
+            
+            <Route path="/header/adddiscussion" component={AddDiscussion}/>
+            
+
+
+
+
             <Route
               exact
               path="/header/Tutorial"
