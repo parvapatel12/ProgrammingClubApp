@@ -38,7 +38,7 @@ class AddBlog extends Component {
 
     var currid = 0;
 
-    this.getData();
+    // this.getData();
     firebase
       .database()
       .ref()
@@ -53,6 +53,12 @@ class AddBlog extends Component {
           console.log("Error: " + error.code);
         }
       );
+  }
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
   }
 
   getData = () => {
@@ -163,6 +169,7 @@ class AddBlog extends Component {
   }
 
   handleAddTag() {
+    if(!this.state.currtag) return;
     this.state.taglist.push(this.state.currtag);
     this.setState({ currtag: "" });
   }

@@ -4,6 +4,8 @@ import Addcomment from "./Addcomment";
 
 import firebase from "firebase";
 import Tutorial from "./Tutorial";
+import { Link } from "react-router-dom";
+var mail,x,k,b;
 
 class TutorialArea extends Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class TutorialArea extends Component {
       list: [],
       temp: [],
       numoftutorial:"5",
+      isModerator:false
     };
     this.tutorialRef = firebase
       .database()
@@ -26,6 +29,46 @@ class TutorialArea extends Component {
      // this.listenTutorials();
       
   }
+
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
+  }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
 
 
   
@@ -53,6 +96,15 @@ class TutorialArea extends Component {
     return (
       <div>
         
+        {this.state.isModerator ? (
+          <Link to="/header/addblog" className="Add-Blog-button">
+          +
+        </Link>
+        ): (
+          <div></div>
+        ) }
+        
+
         {this.state.list ? (   
           <div>      
               

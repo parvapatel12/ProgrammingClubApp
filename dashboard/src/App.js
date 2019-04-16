@@ -115,7 +115,7 @@ class App extends Component {
               path="/header/Tutorial"
               render={props => (
                 <React.Fragment>
-                  <AddTutorial />
+                  {/* <AddTutorial /> */}
                   <TutorialArea />
                 </React.Fragment>
               )}

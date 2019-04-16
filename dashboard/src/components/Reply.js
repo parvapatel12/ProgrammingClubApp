@@ -6,12 +6,15 @@ import firebase from "firebase";
 
 //import {WebView} from 'react-native';
 
+var mail,x,k,b;
 class Reply extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       content: " ",
       curr_user: 'Sebastian',
+      userName: "",
       curr_id:0,
       commentobj:0,
     };
@@ -22,33 +25,48 @@ class Reply extends Component {
 
   }
 
-//  async getobj()
-//   {
-//     var tempid=this.props.message;
-//     var temp_obj;
-//     var curr_key;
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
+  }
 
 
-//     var query = firebase.database().ref("reply_list").orderByKey();
-   
-//    await query.once("value")
-//   .then(function(snapshot) {
-//     snapshot.forEach(function(childSnapshot) {
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
 
-//       var childData = childSnapshot.val();
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
 
-//       //console.log(childData.id);
-//       if(childData.id==tempid)
-//       {
-//         curr_key=childSnapshot.key;
-//         temp_obj=childData;
-//       }
-//   });
-// });
 
-// this.setState({commentobj:temp_obj});
-// //console.log(this.commentobj);
-// }
 
 
   handleChange_content(event) {
@@ -65,6 +83,12 @@ class Reply extends Component {
       <div className="replyy">
         <div className="reply-username">[{this.props.message.userName}]</div>
         <div className="reply-content" dangerouslySetInnerHTML={{__html: this.props.message.content}} />
+        {/* this is added for reply time. */}
+        <span >
+            {new Date(this.props.message.timestamp).toLocaleDateString()}
+            {", "}
+            {new Date(this.props.message.timestamp).toLocaleTimeString()}
+          </span>
       </div>
         
       

@@ -34,10 +34,17 @@ class Addcommentd extends Component {
     }, function (error) {
       console.log("Error: " + error.code);
     });
-    this.getData();
+    // this.getData();
     console.log(this.props.message.id);
 
 
+  }
+
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
   }
 
   getData = () => {

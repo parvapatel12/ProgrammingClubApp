@@ -27,9 +27,15 @@ export default class Blog extends Component {
       hasHandle:false,
       userName:"hh"
     };
-    this.getData(); 
+    // this.getData(); 
     // this.calculate_vote();
      
+  }
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
   }
 
   getData = () => {
@@ -53,7 +59,7 @@ export default class Blog extends Component {
             b = child.val().isModerator;
           }
         });
-        this.setState({ userName: x });
+        this.setState({ curr_user: x });
         this.setState({ isModerator: b });
         if (k == undefined || k == null || k == "00") {
           this.setState({ hasHandle: false });
@@ -284,7 +290,11 @@ export default class Blog extends Component {
           </div>
 
           
-          <div className="remove-blog-btn" onClick={this.handleRemove.bind(this)}>Remove this blog</div>
+          {this.state.isModerator || this.state.curr_user==this.props.message.userName ? (
+            <div className="remove-blog-btn" onClick={this.handleRemove.bind(this)}>Remove this blog</div>
+          ):(<div></div>)
+        }
+          
           <div className="for-space-3"></div>
           
 

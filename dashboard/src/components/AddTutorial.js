@@ -26,7 +26,7 @@ class AddTutorial extends Component {
     this.ref=firebase.database().ref().child('tutorialid');
 
     var currid=0;
-    this.getData();
+    // this.getData();
     firebase.database().ref().child('tutorialid').on("value", function(snapshot) {
       currid=snapshot.val();
       console.log(currid);
@@ -35,6 +35,13 @@ class AddTutorial extends Component {
    }); 
 
   
+  }
+
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
   }
 
   getData = () => {

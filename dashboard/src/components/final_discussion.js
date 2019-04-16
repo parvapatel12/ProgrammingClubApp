@@ -8,7 +8,7 @@ import Comment from "./Comment";
 import firebase from "firebase";
 
 //import {WebView} from 'react-native';
-
+var mail,x,k,b;
 export default class Fdiscussion extends Component {
   constructor(props) {
     super(props);
@@ -21,16 +21,59 @@ export default class Fdiscussion extends Component {
       commentlist: false,
       comment_obj_list: [],
       curr_id: 0,
+      isModerator: false
     };
 
-    this.calculate_vote();
   }
+
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
+  }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ curr_user: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+        this.calculate_vote();
+      });
+  };
 
 
   calculate_vote() {
-    this.state.upvoted = (this.props.message.upvote.includes(this.state.curr_user)) ? true : false;
-    this.state.downvoted = (this.props.message.downvote.includes(this.state.curr_user)) ? true : false;
-
+    
+    console.log(this.state.curr_user);
+    var t1 = (this.props.message.upvote.includes(this.state.curr_user)) ? true : false;
+    var t2 = (this.props.message.downvote.includes(this.state.curr_user)) ? true : false;
+    this.setState({upvoted:t1,downvoted:t2});
   }
 
   handleUpvote() {
@@ -54,7 +97,7 @@ export default class Fdiscussion extends Component {
             curr_key = childSnapshot.key;
             // console.log(curr_key);
             firebase.database().ref().child("discussion_entry").child(curr_key).update({ upvote: upvotearray });
-
+            window.location.reload();
           }
         });
       });
@@ -83,7 +126,7 @@ export default class Fdiscussion extends Component {
             curr_key = childSnapshot.key;
             //console.log(curr_key);
             firebase.database().ref().child("discussion_entry").child(curr_key).update({ downvote: downvotearray });
-
+            window.location.reload();
           }
         });
       });
@@ -109,7 +152,7 @@ export default class Fdiscussion extends Component {
             curr_key = childSnapshot.key;
             //console.log(curr_key);
             firebase.database().ref().child("discussion_entry").child(curr_key).remove();
-
+            window.location.reload();
           }
         });
       });
@@ -243,8 +286,12 @@ export default class Fdiscussion extends Component {
           </div>
 
           
-          <div className="remove-blog-btn" onClick={this.handleRemove.bind(this)}>Remove </div>
+          {this.state.isModerator || this.state.curr_user==this.props.message.userName ? (
+            <div className="remove-blog-btn" onClick={this.handleRemove.bind(this)}>Remove this blog</div>
+          ):(<div></div>)
+        }
           <div className="for-space-3"></div>
+          
           
 
 

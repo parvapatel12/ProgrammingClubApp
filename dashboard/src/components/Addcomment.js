@@ -35,10 +35,17 @@ class Addcomment extends Component {
     }, function (error) {
       console.log("Error: " + error.code);
     });
-    this.getData();
+    // this.getData();
     console.log(this.props.message.id);
     
 
+  }
+
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
   }
 
   
@@ -96,6 +103,7 @@ class Addcomment extends Component {
 
 
     //  console.log(this.state.blogid);
+    console.log(this.state.userName);
     if (1) {
       var newItem = {
         id: currid,

@@ -32,7 +32,7 @@ class AddDiscussion extends Component {
     this.ref=firebase.database().ref().child('discussionid');
 
     var currid=0;
-    this.getData();
+    // this.getData();
     firebase.database().ref().child('discussionid').on("value", function(snapshot) {
       currid=snapshot.val();
       console.log(currid);
@@ -41,6 +41,13 @@ class AddDiscussion extends Component {
    }); 
 
     
+  }
+
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
   }
 
   getData = () => {
@@ -109,7 +116,7 @@ class AddDiscussion extends Component {
   //  console.log(this.state.blogid);
     if (this.state.title ) {
       var newItem = {
-        id: 1e9-currid,
+        id: currid,
         userName: this.state.userName,
         title: this.state.title,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
@@ -158,6 +165,7 @@ class AddDiscussion extends Component {
     const { editorState } = this.state;
     return (
       <div >
+        <div>{this.state.userName}</div>
         <label >Title</label>
         <br></br>
         <input type="text"
