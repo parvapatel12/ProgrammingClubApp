@@ -9,14 +9,14 @@ import htmlToDraft from 'html-to-draftjs';
 
 
 import firebase from "firebase";
-
+var mail,x,k,b;
 
 class AddTutorial extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userName: 'Deep',
+      userName: "",
       title: '',
       content: ' ',
       editorState: EditorState.createEmpty(),
@@ -26,7 +26,7 @@ class AddTutorial extends Component {
     this.ref=firebase.database().ref().child('tutorialid');
 
     var currid=0;
-
+    this.getData();
     firebase.database().ref().child('tutorialid').on("value", function(snapshot) {
       currid=snapshot.val();
       console.log(currid);
@@ -34,8 +34,42 @@ class AddTutorial extends Component {
       console.log("Error: " + error.code);
    }); 
 
-    
+  
   }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
+    
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,

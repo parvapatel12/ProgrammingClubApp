@@ -8,23 +8,65 @@ import Comment from "./Comment";
 import firebase from "firebase";
 
 //import {WebView} from 'react-native';
+var mail,x,k,b;
 
 export default class Blog extends Component {
   constructor(props) {
     super(props);
     this.state = {
       content: " ",
-      curr_user: 'Parva',
+      curr_user: "",
       upvoted: false,
       downvoted: false,
       viewcomments: false,
       commentlist: false,
       comment_obj_list: [],
       curr_id: 0,
+      isModerator:false,
+      cf_handle:"",
+      hasHandle:false,
+      userName:"hh"
     };
-
-    this.calculate_vote();
+    this.getData(); 
+    // this.calculate_vote();
+     
   }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+      this.calculate_vote();
+  };
+
+
 
 
   calculate_vote() {

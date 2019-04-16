@@ -10,13 +10,14 @@ import htmlToDraft from 'html-to-draftjs';
 
 import firebase from "firebase";
 
+var mail,x,k,b;
 
 class AddDiscussion extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userName: 'Deep',
+      userName: "",
       title: '',
       content: ' ',
       upvote: ["__S"],
@@ -31,7 +32,7 @@ class AddDiscussion extends Component {
     this.ref=firebase.database().ref().child('discussionid');
 
     var currid=0;
-
+    this.getData();
     firebase.database().ref().child('discussionid').on("value", function(snapshot) {
       currid=snapshot.val();
       console.log(currid);
@@ -41,6 +42,40 @@ class AddDiscussion extends Component {
 
     
   }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
+
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
@@ -100,7 +135,7 @@ class AddDiscussion extends Component {
       this.setState({ currtag: '' });
       this.setState({ taglist: [] });
     }
-    this.props.history.push("/discussion");
+    this.props.history.push("/header/Discussion");
     
   }
 
@@ -123,7 +158,7 @@ class AddDiscussion extends Component {
     const { editorState } = this.state;
     return (
       <div >
-        <label >Title  HELLO</label>
+        <label >Title</label>
         <br></br>
         <input type="text"
           placeholder="Type title"onEditorStateChange

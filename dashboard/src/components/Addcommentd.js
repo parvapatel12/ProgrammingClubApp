@@ -9,7 +9,7 @@ import draftToHtml from 'draftjs-to-html';
 
 
 import firebase from "firebase";
-
+var mail,x,k,b;
 
 class Addcommentd extends Component {
   constructor(props) {
@@ -28,17 +28,51 @@ class Addcommentd extends Component {
     this.ref = firebase.database().ref().child('commentid');
 
     var currid = 0;
-
+    
     firebase.database().ref().child('commentid').on("value", function (snapshot) {
       currid = snapshot.val();
     }, function (error) {
       console.log("Error: " + error.code);
     });
-
+    this.getData();
     console.log(this.props.message.id);
 
 
   }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
+
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
