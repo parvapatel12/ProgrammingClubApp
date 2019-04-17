@@ -71,6 +71,7 @@ class App extends Component {
               )}
             />
             <Route path="/header/addblog" component={AddBlog} />
+            <Route path="/header/addtutorial" component={AddTutorial} />
             <Route path="/header/dashboard" component={Dashboard} />
           {/*  <Route
               exact

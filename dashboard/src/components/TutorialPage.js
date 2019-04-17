@@ -12,7 +12,7 @@ class TutorialPage extends Component {
     console.log(this);
     return (
       <div className="content">
-        <div className="title">{this.props.match.params.id}</div>
+        <div className="title-tutorial">{this.props.match.params.id}</div>
         <div className="tut-topic-content" dangerouslySetInnerHTML={{__html: this.props.location.state.message.content}} />
       </div>
     );

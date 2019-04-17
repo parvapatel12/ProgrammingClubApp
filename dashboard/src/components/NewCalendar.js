@@ -106,6 +106,13 @@ class BigCalendar extends Component {
 
     //console.log(this.state.events);
   };
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      //console.log("user",user);
+      if(this.state.isSignedIn) this.getData();
+    })
+  }
   // state = {
   //   isModerator: true,
   //   events: [
@@ -495,7 +502,7 @@ class BigCalendar extends Component {
             )}
             {/* <button onClick={this.redir}>Redirect</button> */}
             <div className="add-new-event">
-              <div className="head">Form to Add New Event</div>
+              <div className="head-event-form">Form to Add New Event</div>
               <form onSubmit={this.onSubmit}>
                 <p className="text-form">Start Date</p>
                 <input name="from" type="date" onChange={this.onChange1} />

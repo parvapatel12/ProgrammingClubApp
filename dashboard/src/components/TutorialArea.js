@@ -101,7 +101,7 @@ class TutorialArea extends Component {
         <div className="name">Tutorials</div>
 
         {this.state.isModerator ? (
-          <Link to="/header/addblog" className="Add-Blog-button">
+          <Link to="/header/addtutorial" className="Add-Blog-button">
             +
           </Link>
         ) : (

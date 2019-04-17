@@ -12,6 +12,150 @@ p {
   margin-block-end: 0;
 }
 
+.background_pages {
+  background-color: rgb(220, 255, 252);
+  font-family: 'Josefin Sans', sans-serif;
+  height: 800px;
+}
+
+.heading {
+  position: relative;
+  text-align: center;
+  font-size: 60px;
+  color: rgba(20,70,73, 1);
+  padding-top: 20px;
+}
+
+.form-add {
+  width: 80%;
+  height: auto;
+  margin: 0 0 0 9%;
+  background-color: rgba(20,70,73, 1);
+  padding: 20px 20px 20px 20px;
+  border-radius: 30px;
+  text-align: center;
+}
+
+.title-adder {
+  width: 100%;
+  height: 40px;
+  font-size: 40px;
+  color: white;
+  line-height: 40px;
+}
+
+input[type=text] {
+  width: 36%;
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.for_space_10 {
+  height: 30px;
+}
+
+.background-text-editor {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.add_tag_div {
+  width: 100;
+  text-align: center;
+}
+
+.tag_add_btn {
+  position: relative;
+  text-align: center;
+  width: 100px;
+  margin-left: 20px;
+  background-color: rgb(0, 212, 135);
+  height: 30px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+span {
+  color: black;
+}
+
+.tags-names {
+  width: 100%;
+  text-align: center;
+}
+
+.tags_div {
+  min-width: 30px;
+  height: 30px;
+  background-color: rgba(0,0,0,0.3);
+  color: white;
+  display: inline-block;
+  margin: 0 5px 0 5px;
+  border-radius: 5px;
+  line-height: 30px;
+}
+
+.form__button-9 {
+  height: 30px;
+  width: 100px;
+  border-radius: 15px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .reco-main-page {
   /*background-image: url(../images/blue.jpg);
   background-attachment: fixed;*/

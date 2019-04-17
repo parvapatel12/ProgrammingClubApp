@@ -13,6 +13,14 @@ import { Redirect } from "react-router-dom";
 
 
 export class Header extends Component {
+
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user })
+      //console.log("user",user);
+    })
+  }
+
   refreshPage = () => {
     window.location.reload();
   };
@@ -22,14 +30,12 @@ export class Header extends Component {
     super();
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      redirect:false
     };
 
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
-    this.state = {
-      redirect: false
-    };
   }
 
   showMenu(event) {
@@ -41,20 +47,20 @@ export class Header extends Component {
   }
 
   closeMenu(event) {
-    if (!this.dropdownMenu.contains(event.target)) {
+    if (this.dropdownMenu && !this.dropdownMenu.contains(event.target)) {
       this.setState({ showMenu: false }, () => {
         document.removeEventListener("click", this.closeMenu);
       });
-    } 
+    }
   }
   // till here...
 
   handleonClick() {
     /*console.log(event.target);
     closeMenu(event);*/
-    this.setState({ showMenu: false }, () => {
-      document.removeEventListener("click", this.closeMenu);
-    });
+    // this.setState({ showMenu: false }, () => {
+    //   document.removeEventListener("click", this.closeMenu);
+    // });
     firebase.auth().signOut();
     this.setState({ redirect: true });
   };
@@ -80,12 +86,16 @@ export class Header extends Component {
     */}
 
           <div className="profile" onClick={this.showMenu}>
-            <img
+
+            {firebase.auth().currentUser && <img className="dp" alt="Your profile picture" src={firebase.auth().currentUser.photoURL} />}
+
+            {/* <img
               className="dp"
               src={require("../images/avatar-01.jpg")}
               alt="profile"
-            />
-            <p className="username">Parva Patel</p>
+            /> */}
+
+            {firebase.auth().currentUser && <p className="username">{firebase.auth().currentUser.displayName}</p>}
             <p className="arrow-down">^</p>
             {this.state.showMenu ? (
               <div
@@ -95,20 +105,24 @@ export class Header extends Component {
                 }}
               >
                 <div className="dropitems-view-only">
-                  <img
+
+                  {firebase.auth().currentUser && <img className="dp-big" alt="Your profile picture" src={firebase.auth().currentUser.photoURL} />}
+
+                  {/* <img
                     className="dp-big"
                     src={require("../images/avatar-01.jpg")}
                     alt="profile"
-                  />
+                  /> */}
+
                   <div className="name-email">
-                    <p className="username-big">Parva Patel</p>
-                    <p className="email-big">parvapatel12@gmail.com</p>
+                    {firebase.auth().currentUser && <p className="username-big">{firebase.auth().currentUser.displayName}</p>}
+                    {firebase.auth().currentUser && <p className="email-big">{firebase.auth().currentUser.email}</p>}
                   </div>
                 </div>
                 <div className="line" />
                 <div className="dropitems">Account</div>
                 <div className="dropitems">More</div>
-                <div className="dropitems" onClick={this.handleonClick}>Logout</div>
+                <div className="dropitems" onClick={this.handleonClick.bind(this)}>Logout</div>
               </div>
             ) : null}
           </div>
@@ -116,7 +130,7 @@ export class Header extends Component {
 
         <div className="tabs">
           <Link to="/header/dashboard" className="linkStyle">
-            Dashboard
+            Recommendations
           </Link>
 
           <Link to="/header/Tutorial" className="linkStyle">

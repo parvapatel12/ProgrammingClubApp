@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "./Blog.css";
+import "./css/add_things.css";
 
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 
 import firebase from "firebase";
 
-var mail,x,k,b;
+var mail, x, k, b;
 
 class AddBlog extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class AddBlog extends Component {
       commentlist: [],
       editorState: EditorState.createEmpty(),
       timestamp: firebase.database.ServerValue.TIMESTAMP,
-      currtag: " "
+      currtag: ""
     };
     this.blogRef = firebase
       .database()
@@ -45,19 +45,19 @@ class AddBlog extends Component {
       .child("blogid")
       .on(
         "value",
-        function(snapshot) {
+        function (snapshot) {
           currid = snapshot.val();
           console.log(currid);
         },
-        function(error) {
+        function (error) {
           console.log("Error: " + error.code);
         }
       );
   }
-  componentDidMount=() =>{
+  componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({isSignedIn:!!user})
-      if(this.state.isSignedIn) this.getData();
+      this.setState({ isSignedIn: !!user })
+      if (this.state.isSignedIn) this.getData();
     })
   }
 
@@ -73,7 +73,7 @@ class AddBlog extends Component {
       .child("users")
       .once("value")
       .then(snapshot => {
-        snapshot.forEach(function(child) {
+        snapshot.forEach(function (child) {
           var temp = child.val().userEmail;
           data_list.push(temp);
           if (temp == String(mail)) {
@@ -124,11 +124,11 @@ class AddBlog extends Component {
       .child("blogid")
       .on(
         "value",
-        function(snapshot) {
+        function (snapshot) {
           currid = snapshot.val();
           // console.log(currid);
         },
-        function(error) {
+        function (error) {
           console.log("Error: " + error.code);
         }
       );
@@ -151,7 +151,7 @@ class AddBlog extends Component {
       };
       //      console.log('currid2' + currid);
 
-      ref.transaction(function(currid) {
+      ref.transaction(function (currid) {
         return currid + 1;
       });
 
@@ -169,7 +169,7 @@ class AddBlog extends Component {
   }
 
   handleAddTag() {
-    if(!this.state.currtag) return;
+    if (!this.state.currtag) return;
     this.state.taglist.push(this.state.currtag);
     this.setState({ currtag: "" });
   }
@@ -187,56 +187,60 @@ class AddBlog extends Component {
   render() {
     const { editorState } = this.state;
     return (
-      <div>
-        <label>Title</label>
-        <br />
-        <input
-          type="text"
-          placeholder="Type title"
-          onEditorStateChange
-          value={this.state.title}
-          onChange={this.handleChange_title.bind(this)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-        />
-        <br />
+      <div className="background_pages">
 
-        <label>Content</label>
+        <div className="heading">Add Blog</div>
 
-        <Editor
-          className="rich_text_own"
-          editorState={editorState}
-          wrapperClassName="demo-wrapper"
-          editorClassName="demo-editor"
-          onEditorStateChange={this.onEditorStateChange}
-        />
-        {/* <div>{this.state.taglist}</div> */}
-        <br />
+        <div className="form-add">
+          <div className="title-adder">Title</div>
+          <input
+            type="text"
+            placeholder="Type the title of blog"
+            onEditorStateChange
+            value={this.state.title}
+            onChange={this.handleChange_title.bind(this)}
+            onKeyPress={this.handleKeyPress.bind(this)}
+            className="input_title"
+          />
+          <div className="for_space_10" />
 
-        <br />
+          <div className="title-adder">Content</div>
 
-        <label>Tags</label>
-        <br />
+          <div className="background-text-editor">
+            <Editor
+              className="rich_text_own"
+              editorState={editorState}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              onEditorStateChange={this.onEditorStateChange}
+            />
 
-        <input
-          type="text"
-          placeholder="add tag one by one and press enter"
-          value={this.state.currtag}
-          onChange={this.handleChange_tag.bind(this)}
-          onKeyPress={this.handleKeyPressAddTag.bind(this)}
-        />
+          </div>
 
-        <button onClick={this.handleAddTag.bind(this)}>Add tag</button>
+          <div className="title-adder">Tags</div>
 
-        <div>
-          {this.state.taglist.map((item, index) => (
-            <span>{item + "  "}</span>
-          ))}
-        </div>
+          <div className="add_tag_div">
+            <input
+              type="text"
+              placeholder="Add tag one by one and press enter"
+              value={this.state.currtag}
+              onChange={this.handleChange_tag.bind(this)}
+              onKeyPress={this.handleKeyPressAddTag.bind(this)}
+            />
+            <button className="tag_add_btn" onClick={this.handleAddTag.bind(this)}>Add tag</button>
+          </div>
 
-        <button className="form__button" onClick={this.handleSend.bind(this)}>
-          {" "}
-          Submit
+          <div className="tags-names">
+            {this.state.taglist.map((item, index) => (
+              <div className="tags_div">{item + "  "}</div>
+            ))}
+          </div>
+
+          <button className="form__button-9" onClick={this.handleSend.bind(this)}>
+            {" "}
+            Submit
         </button>
+        </div>
       </div>
     );
   }

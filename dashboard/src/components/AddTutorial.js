@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import "./Blog.css";
+import "./css/add_things.css";
 
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
 
 import firebase from "firebase";
-var mail,x,k,b;
+var mail, x, k, b;
 
 class AddTutorial extends Component {
   constructor(props) {
@@ -20,27 +20,27 @@ class AddTutorial extends Component {
       title: '',
       content: ' ',
       editorState: EditorState.createEmpty(),
-      timestamp: firebase.database.ServerValue.TIMESTAMP,     
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
     this.tutorialRef = firebase.database().ref().child('tutorial_entry');
-    this.ref=firebase.database().ref().child('tutorialid');
+    this.ref = firebase.database().ref().child('tutorialid');
 
-    var currid=0;
+    var currid = 0;
     // this.getData();
-    firebase.database().ref().child('tutorialid').on("value", function(snapshot) {
-      currid=snapshot.val();
+    firebase.database().ref().child('tutorialid').on("value", function (snapshot) {
+      currid = snapshot.val();
       console.log(currid);
-   }, function (error) {
+    }, function (error) {
       console.log("Error: " + error.code);
-   }); 
+    });
 
-  
+
   }
 
-  componentDidMount=() =>{
+  componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({isSignedIn:!!user})
-      if(this.state.isSignedIn) this.getData();
+      this.setState({ isSignedIn: !!user })
+      if (this.state.isSignedIn) this.getData();
     })
   }
 
@@ -56,7 +56,7 @@ class AddTutorial extends Component {
       .child("users")
       .once("value")
       .then(snapshot => {
-        snapshot.forEach(function(child) {
+        snapshot.forEach(function (child) {
           var temp = child.val().userEmail;
           data_list.push(temp);
           if (temp == String(mail)) {
@@ -76,7 +76,7 @@ class AddTutorial extends Component {
         }
       });
   };
-    
+
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
@@ -89,43 +89,44 @@ class AddTutorial extends Component {
     this.setState({ content: event.target.value });
   }
 
- handleSend() {
-    
-    var ref=firebase.database().ref().child('tutorialid');
-    var currid=0;
+  handleSend() {
 
-    firebase.database().ref().child('tutorialid').on("value", function(snapshot) {
-      currid=snapshot.val();
-     // console.log(currid);
-   }, function (error) {
+    var ref = firebase.database().ref().child('tutorialid');
+    var currid = 0;
+
+    firebase.database().ref().child('tutorialid').on("value", function (snapshot) {
+      currid = snapshot.val();
+      // console.log(currid);
+    }, function (error) {
       console.log("Error: " + error.code);
-   });
+    });
 
-    
 
-    console.log('currid'+ currid);
-    if (this.state.title ) {
-        var newItem = {
-        id: 1e9-currid,
+
+    console.log('currid' + currid);
+    if (this.state.title) {
+      var newItem = {
+        id: 1e9 - currid,
         userName: this.state.userName,
         title: this.state.title,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
-    };
-//      console.log('currid2' + currid);
+      };
+      //      console.log('currid2' + currid);
 
-      ref.transaction(function(currid) {
-        return currid+1;
-     });
-      
-      
-      var item=this.tutorialRef.push();
-      item.setWithPriority(newItem,0-Date.now());
+      ref.transaction(function (currid) {
+        return currid + 1;
+      });
+
+
+      var item = this.tutorialRef.push();
+      item.setWithPriority(newItem, 0 - Date.now());
 
       this.setState({ title: '' });
       this.setState({ content: '' });
       this.setState({ currtag: '' });
       this.setState({ taglist: [] });
     }
+    this.props.history.push("/header/Tutorial");
   }
 
 
@@ -138,36 +139,37 @@ class AddTutorial extends Component {
   render() {
     const { editorState } = this.state;
     return (
-      <div >
-        <label >Title</label>
-        <br></br>
-        <input type="text"
-          placeholder="Type title"onEditorStateChange
-          value={this.state.title}
-          onChange={this.handleChange_title.bind(this)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-        ></input>
-        <br></br>
+      <div className="background_pages">
+        <div className="heading">Add Tutorial</div>
 
-        <label>Content</label>
-        
-        <Editor
-            className="rich_text_own"
-            editorState={editorState}
-            wrapperClassName="demo-wrapper"
-            editorClassName="demo-editor"
-            onEditorStateChange={this.onEditorStateChange}
-          />
-        <br></br>
+        <div className="form-add">
+          <div className="title-adder">Title</div>
+          <input type="text"
+            placeholder="Type the title of tutorial." onEditorStateChange
+            value={this.state.title}
+            onChange={this.handleChange_title.bind(this)}
+            onKeyPress={this.handleKeyPress.bind(this)}
+          ></input>
 
-        <br></br>
+          <div className="for_space_10"></div>
 
-         
-        <button
-            className="form__button"
+          <div className="title-adder">Content</div>
+          <div className="background-text-editor">
+            <Editor
+              className="rich_text_own"
+              editorState={editorState}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              onEditorStateChange={this.onEditorStateChange}
+            />
+          </div>
+
+          <button
+            className="form__button-9"
             onClick={this.handleSend.bind(this)}
-        > Submit  </button>
+          > Submit  </button>
         </div>
+      </div>
     );
   }
 }

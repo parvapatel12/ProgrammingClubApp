@@ -208,7 +208,7 @@ class dashboard extends Component {
           }
           data =
             data +
-            '<a href="' +
+            '<a target="_blank" href="' +
             tag_dif_arr["implementation"]["easy"][x]["link"] +
             '" id="pb-solve"> Solve </a>';
           data = data + "<br>";
@@ -265,7 +265,7 @@ class dashboard extends Component {
       //data=data+tag_dif_arr[this.state.tag][this.state.type][x]["tag"]+"<br>";
       data =
         data +
-        '<a href="' +
+        '<a target="_blank" href="' +
         tag_dif_arr[this.state.tag][this.state.type][x]["link"] +
         '" id="pb-solve"> Solve </a>';
       data = data + "<br>";
@@ -365,152 +365,152 @@ class dashboard extends Component {
 
         <div className="tags-for-questions" onClick={this.showMenu}>
           If you want specific tags, please select one:
-          <div className="tags-btn">Tags</div>            
+          <div className="tags-open">Tags</div>            
         </div>
         
         {this.state.showMenu ? (
-          <div className="menu">
-            <button onClick={this.selectTag} value="implementation">
+          <div className="tags-menu">
+            <button className="tag-option" onClick={this.selectTag} value="implementation">
               {" "}
               Implementation{" "}
             </button>
-            <button onClick={this.selectTag} value="brute force">
+            <button className="tag-option" onClick={this.selectTag} value="brute force">
               {" "}
               Brute Force{" "}
             </button>
-            <button onClick={this.selectTag} value="data structures">
+            <button className="tag-option" onClick={this.selectTag} value="data structures">
               {" "}
               Data Structures{" "}
             </button>
-            <button onClick={this.selectTag} value="dp">
+            <button className="tag-option" onClick={this.selectTag} value="dp">
               {" "}
               Dynamic Programming{" "}
             </button>
-            <button onClick={this.selectTag} value="binary search">
+            <button className="tag-option" onClick={this.selectTag} value="binary search">
               {" "}
               Binary Search{" "}
             </button>
-            <button onClick={this.selectTag} value="greedy">
+            <button className="tag-option" onClick={this.selectTag} value="greedy">
               {" "}
               Greedy{" "}
             </button>
-            <button onClick={this.selectTag} value="graphs">
+            <button className="tag-option" onClick={this.selectTag} value="graphs">
               {" "}
               Graphs{" "}
             </button>
-            <button onClick={this.selectTag} value="math">
+            <button className="tag-option" onClick={this.selectTag} value="math">
               {" "}
               Math{" "}
             </button>
-            <button onClick={this.selectTag} value="number theory">
+            <button className="tag-option" onClick={this.selectTag} value="number theory">
               {" "}
               Number Theory{" "}
             </button>
-            <button onClick={this.selectTag} value="strings">
+            <button className="tag-option" onClick={this.selectTag} value="strings">
               {" "}
               Strings{" "}
             </button>
-            <button onClick={this.selectTag} value="sortings">
+            <button className="tag-option" onClick={this.selectTag} value="sortings">
               {" "}
               Sortings{" "}
             </button>
-            <button onClick={this.selectTag} value="trees">
+            <button className="tag-option" onClick={this.selectTag} value="trees">
               {" "}
               Trees{" "}
             </button>
-            <button onClick={this.selectTag} value="dfs and similar">
+            <button className="tag-option" onClick={this.selectTag} value="dfs and similar">
               {" "}
               DFS and Similar{" "}
             </button>
-            <button onClick={this.selectTag} value="geometry">
+            <button className="tag-option" onClick={this.selectTag} value="geometry">
               {" "}
               Geometry{" "}
             </button>
-            <button onClick={this.selectTag} value="two pointers">
+            <button className="tag-option" onClick={this.selectTag} value="two pointers">
               {" "}
               Two Pointers{" "}
             </button>
-            <button onClick={this.selectTag} value="ternary search">
+            <button className="tag-option" onClick={this.selectTag} value="ternary search">
               {" "}
               Ternary Search{" "}
             </button>
-            <button onClick={this.selectTag} value="probabilities">
+            <button className="tag-option" onClick={this.selectTag} value="probabilities">
               {" "}
               Probabilities{" "}
             </button>
-            <button onClick={this.selectTag} value="matrices">
+            <button className="tag-option" onClick={this.selectTag} value="matrices">
               {" "}
               Matrices{" "}
             </button>
-            <button onClick={this.selectTag} value="dsu">
+            <button className="tag-option" onClick={this.selectTag} value="dsu">
               {" "}
               DSU{" "}
             </button>
-            <button onClick={this.selectTag} value="games">
+            <button className="tag-option" onClick={this.selectTag} value="games">
               {" "}
               Games{" "}
             </button>
-            <button onClick={this.selectTag} value="flows">
+            <button className="tag-option" onClick={this.selectTag} value="flows">
               {" "}
               Flows{" "}
             </button>
-            <button onClick={this.selectTag} value="fft">
+            <button className="tag-option" onClick={this.selectTag} value="fft">
               {" "}
               Fast Fourier Transform{" "}
             </button>
-            <button onClick={this.selectTag} value="divide and conquer">
+            <button className="tag-option" onClick={this.selectTag} value="divide and conquer">
               {" "}
               Divide and Conquer{" "}
             </button>
-            <button onClick={this.selectTag} value="bitmasks">
+            <button className="tag-option" onClick={this.selectTag} value="bitmasks">
               {" "}
               Bit Masking{" "}
             </button>
-            <button onClick={this.selectTag} value="2-sat">
+            <button className="tag-option" onClick={this.selectTag} value="2-sat">
               {" "}
               2-Satisfiability{" "}
             </button>
-            <button onClick={this.selectTag} value="combinatorics">
+            <button className="tag-option" onClick={this.selectTag} value="combinatorics">
               {" "}
               Combinatorics{" "}
             </button>
-            <button onClick={this.selectTag} value="constructive algorithm">
+            <button className="tag-option" onClick={this.selectTag} value="constructive algorithm">
               {" "}
               Constructive Algorithm{" "}
             </button>
-            <button onClick={this.selectTag} value="hashing">
+            <button className="tag-option" onClick={this.selectTag} value="hashing">
               {" "}
               Hashing{" "}
             </button>
-            <button onClick={this.selectTag} value="graph matchings">
+            <button className="tag-option" onClick={this.selectTag} value="graph matchings">
               {" "}
               Graph Matchings{" "}
             </button>
-            <button onClick={this.selectTag} value="meet-in-the-middle">
+            <button className="tag-option" onClick={this.selectTag} value="meet-in-the-middle">
               {" "}
               Meet in the Middle{" "}
             </button>
-            <button onClick={this.selectTag} value="string suffix stuctures">
+            <button className="tag-option" onClick={this.selectTag} value="string suffix stuctures">
               {" "}
               String suffix structures{" "}
             </button>
-            <button onClick={this.selectTag} value="shortest paths">
+            <button className="tag-option" onClick={this.selectTag} value="shortest paths">
               {" "}
               Shortest Paths{" "}
             </button>
-            <button onClick={this.selectTag} value="schedules">
+            <button className="tag-option" onClick={this.selectTag} value="schedules">
               {" "}
               Schedules{" "}
             </button>
-            <button onClick={this.selectTag} value="expression parsing">
+            <button className="tag-option" onClick={this.selectTag} value="expression parsing">
               {" "}
               Expression Parsing{" "}
             </button>
-            <button onClick={this.selectTag} value="chinese remainder theorem">
+            <button className="tag-option" onClick={this.selectTag} value="chinese remainder theorem">
               {" "}
               Chinese Remainder Theorem{" "}
             </button>
-            <button onClick={this.selectTag} value="*special">
+            <button className="tag-option" onClick={this.selectTag} value="*special">
               {" "}
               Special{" "}
             </button>

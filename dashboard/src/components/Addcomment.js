@@ -92,6 +92,12 @@ class Addcomment extends Component {
 
   handleSend() {
 
+    // var hello=draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+    // if(hello.localeCompare("<p></p>")==1)
+    // {
+    //   alert("Empty comment can not be added.");
+    //   return;
+    // }
     var currid;
     var ref = firebase.database().ref().child('commentid');
     ref.on("value", function (snapshot) {
