@@ -177,7 +177,7 @@ export default class Fdiscussion extends Component {
         <div className="message">
           
           <div className="blog_title">{this.props.message.title}</div>
-          <span className="headerh3">By don: </span>
+          <span className="headerh3">By: </span>
           <span className="blog_author">{this.props.message.userName}</span>
 
           <span className="blog_date">

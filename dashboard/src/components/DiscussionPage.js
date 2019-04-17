@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Blog.css";
+import "./css/tutorial.css";
 import Addcomment from "./Addcomment";
 import Comment from "./Comment";
 
@@ -68,7 +68,7 @@ handleViewMore(event)
   render() {
     console.log(this);
     return (
-      <div className="blog-main-page">
+      <div className="tut-page">
       <br></br>
       <div className="name">Topic: {this.props.match.params.id} </div>
       <br></br>

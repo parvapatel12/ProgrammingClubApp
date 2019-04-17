@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Discussion from "./Discussion";
 import Addcomment from "./Addcomment";
-import "./Blog.css";
+import "./css/tutorial.css";
 
 import { Link } from "react-router-dom";
 import firebase from "firebase";

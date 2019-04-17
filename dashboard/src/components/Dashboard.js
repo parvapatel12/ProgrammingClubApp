@@ -5,7 +5,6 @@ import "./css/recommendation.css";
 var c = 0;
 var tags_arr = [];
 var rating_per_tag = [];
-var v_handle = "hiteshpardasani99";
 
 var rat_arr = new Array();
 var tag_dif_arr = [];
@@ -14,13 +13,17 @@ var solved = new Set();
 var rating_per_tag = new Array();
 var avg_rating = new Array();
 
+var mail;
+var x;
+var k;
+var b;
 // var config = {
-//   apiKey: "AIzaSyAbKy_9ySKVg5LPBjcSl4opQWIZNkvrR8M",
-//   authDomain: "temp-4d417.firebaseapp.com",
-//   databaseURL: "https://temp-4d417.firebaseio.com",
-//   projectId: "temp-4d417",
-//   storageBucket: "temp-4d417.appspot.com",
-//   messagingSenderId: "594613445600"
+// apiKey: "AIzaSyAbKy_9ySKVg5LPBjcSl4opQWIZNkvrR8M",
+// authDomain: "temp-4d417.firebaseapp.com",
+// databaseURL: "https://temp-4d417.firebaseio.com",
+// projectId: "temp-4d417",
+// storageBucket: "temp-4d417.appspot.com",
+// messagingSenderId: "594613445600"
 // };
 
 // firebase.initializeApp(config);
@@ -32,7 +35,11 @@ class dashboard extends Component {
       type: "easy",
       tag: "implementation",
       showMenu: false,
-      got_data: false
+      gotdata: false,
+      isModerator: true,
+      has_handle: false,
+      cf_handle: "",
+      nowChange: false
     };
     this.showMenu = this.showMenu.bind(this);
     this.printValue = this.printValue.bind(this);
@@ -41,6 +48,45 @@ class dashboard extends Component {
 
     this.getData();
   }
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user })
+      //console.log("user",user);
+      if (this.state.isSignedIn) this.getUserData();
+    })
+  }
+  getUserData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function (child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
 
   async getData() {
     await firebase
@@ -169,9 +215,8 @@ class dashboard extends Component {
         console.log(tag_dif_arr);
 
         console.log("done");
-        if(document.getElementById("demo"))
-        {
-        document.getElementById("demo").innerHTML = txt;
+        if (document.getElementById("demo")) {
+          document.getElementById("demo").innerHTML = txt;
         }
         var data = "";
         for (var x in tag_dif_arr["implementation"]["easy"]) {
@@ -214,19 +259,19 @@ class dashboard extends Component {
           data = data + "<br>";
           data = data + "</div>";
         }
-        if(document.getElementById("demo"))
-        {
-        document.getElementById("demo").innerHTML = data;
+        if (document.getElementById("demo")) {
+          document.getElementById("demo").innerHTML = data;
         }
       }
     };
     console.log("func start");
     //var v_handle = document.getElementById('handle').value;
     var url =
-      "http://codeforces.com/api/user.status?handle=hiteshpardasani99&from=1&count=1000";
+      "http://codeforces.com/api/user.status?handle=" + this.state.cf_handle + "&from=1&count=1000";
     await xhttp.open("GET", url, true);
     xhttp.send();
     this.state.gotdata = true;
+    // this.setState({got_data:true});
   }
 
   showMenu(event) {
@@ -365,9 +410,9 @@ class dashboard extends Component {
 
         <div className="tags-for-questions" onClick={this.showMenu}>
           If you want specific tags, please select one:
-          <div className="tags-open">Tags</div>            
+ <div className="tags-open">Tags</div>
         </div>
-        
+
         {this.state.showMenu ? (
           <div className="tags-menu">
             <button className="tag-option" onClick={this.selectTag} value="implementation">
@@ -517,7 +562,9 @@ class dashboard extends Component {
           </div>
         ) : null}
         <div id="demo" />
-        <div className="wait">Please wait while the data is gathered..</div>
+        <div className="wait">Problems are loading or no more problems..</div>
+
+
       </div>
     );
   }

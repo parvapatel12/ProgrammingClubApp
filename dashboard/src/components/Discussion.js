@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Blog.css";
+import "./css/tutorial.css";
 import { Link } from "react-router-dom";
 
 export default class Discussion extends Component {
@@ -8,17 +8,18 @@ export default class Discussion extends Component {
     this.state = {
       curr_user: 'Parva'
     };
-}
+  }
 
 
-  
+
   render() {
     return (
       <div className="tag-bar">
-             <div className="tags-name">   </div>
-             <Link to={{ pathname:`/header/Discussion/${this.props.message}`, state: {...this.props} }}> {this.props.message} </Link>
-           </div>
+        <div className="tutorial">
+          <Link className="blog-name" to={{ pathname: `/header/Discussion/${this.props.message}`, state: { ...this.props } }}> {this.props.message} </Link>
+        </div>
+      </div>
 
-      );
+    );
   }
 }
