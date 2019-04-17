@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import firebase from "firebase";
 import {Redirect} from "react-router-dom";
-
+import "./css/tutorial.css"
 var mail;
 var x;
 var k;
 var add;
+var key;
+var b;
 
 class About extends Component {
 
@@ -20,8 +22,11 @@ class About extends Component {
         cf_handle: ' ',
         hasHandle: false,
         isSignedIn: true,
+        openDialogue: false,
       };
-      k = "00"
+      k = "00";
+      key = "Moderator";
+      // key = "we_still_dont_have_a_good_name_for_this.........!!";
       //this.userentry = firebase.database().ref().child('users');
     }
 
@@ -48,7 +53,7 @@ class About extends Component {
        this.handlePush();
     }
 
-     handlePush() {
+    handlePush() {
       var curr_key;
       var query;
       firebase.database().ref().child("users").once("value").then((snapshot) => {
@@ -80,9 +85,11 @@ class About extends Component {
             //y = 2;
             x = child.val().userName;
             k = child.val().cf_handle;
+            b = child.val().isModerator;
           }
         })
-        this.setState({userName: x})
+        this.setState({userName: x});
+        this.setState({isModerator: b});
         if(k==undefined || k==null || k=="00") {
           this.setState({hasHandle: false});
           this.setState({cf_handle: x})
@@ -93,10 +100,52 @@ class About extends Component {
         }
       })
     }
+
+    modAccess() {
+      this.setState({openDialogue: true});
+    }
+
+    handleChangeVal(event) {
+      this.setState({key_entered: event.target.value});
+      add=event.target.value;
+    }
+
+    handleKeyPressVal(event) {
+      if(event.key!=='Enter') return;
+      if(event.target.value == key)
+      {
+        this.handleAccess();
+        this.setState({openDialogue: false});
+      }
+      else
+      {
+        alert ("Wrong moderator key...!! Try hacking it better...!! :p");
+        document.getElementById('moderator_access').value = "";
+        this.setState({openDialogue: false});
+      }
+    }
+
+    handleAccess() {
+      mail =  firebase.auth().currentUser.email;
+      var curr_key;
+      var query;
+      firebase.database().ref().child("users").once("value").then((snapshot) => {
+        snapshot.forEach(function(child)
+        {
+          var temp = child.val();
+          if(temp.userEmail == (String(mail))) {
+            curr_key = child.key;
+            firebase.database().ref().child("users").child(curr_key).update({isModerator: true});
+          }
+        })
+      })
+      alert("You are now a Moderator....!!")
+      document.getElementById('moderator_access').value = "";
+    }
     render() {
 
       if(this.state.redirect){
-        return(<Redirect to="/login"/>)
+        return(<Redirect to="./"/>)
       }
 
       return (
@@ -113,11 +162,35 @@ class About extends Component {
               <input type = "text"
                 id = "username_box"
                 placeholder = {this.state.cf_handle}
+                autoComplete = "off"
                 onChange = {this.handleChange.bind(this)}
                 onKeyPress = {this.handleKeyPress.bind(this)}
                 ></input>
             </label>
             <br />
+            <br />
+            {this.state.isModerator ? (
+              <div> </div>
+            ) :(
+              <div>
+            <button onClick = {this.modAccess.bind(this)}> Request Moderator Access </button>
+            {this.state.openDialogue ? (
+              <div>
+                <input type = "text"
+                id = "moderator_access"
+                placeholder = "Enter the moderator key here..."
+                autoComplete = "off"
+                onChange =  {this.handleChangeVal.bind(this)}
+                onKeyPress = {this.handleKeyPressVal.bind(this)}>
+                </input>
+              </div>
+            ) : (
+              <div> </div>
+            )}
+            <br />
+            <br />
+            </div>
+            )}
           <button onClick = {this.handleonClick}>Log out...!! </button>
         </div>
       );
@@ -125,38 +198,3 @@ class About extends Component {
   }
 
   export default About
-
-
-  {/*}
-
-import React, { Component } from "react";
-import firebase from "firebase";
-import { Redirect } from "react-router";
-class About extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirect: false
-    };
-  }
-  handleonClick = () => {
-    firebase.auth().signOut();
-    this.setState({ redirect: true });
-  };
-  render() {
-    if (this.state.redirect) {
-      return <Redirect to="/login" />;
-    }
-    return (
-      <div>
-        <button onClick={this.handleonClick}>Logout</button>
-        <React.Fragment>
-          <h3>This Application is built by the members of Group 33.</h3>
-        </React.Fragment>
-      </div>
-    );
-  }
-}
-export default About;   */}
-
-

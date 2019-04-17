@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Blog.css";
+import "./css/tutorial.css";
 import Addcomment from "./Addcomment";
 import Comment from "./Comment";
 
@@ -69,9 +69,9 @@ export default class Tutorial extends Component {
   render() {
     
     return (
-    <div className="message">
+    <div className="tutorial">
 
-    <Link to={{ pathname:`/header/Tutorial/${this.props.message.title}`, state: {...this.props} }}> {this.props.message.title} </Link>
+    <Link className="blog-name" to={{ pathname:`/header/Tutorial/${this.props.message.title}`, state: {...this.props} }}> {this.props.message.title} </Link>
 
     </div> 
     );

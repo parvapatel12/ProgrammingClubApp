@@ -169,7 +169,10 @@ class dashboard extends Component {
         console.log(tag_dif_arr);
 
         console.log("done");
+        if(document.getElementById("demo"))
+        {
         document.getElementById("demo").innerHTML = txt;
+        }
         var data = "";
         for (var x in tag_dif_arr["implementation"]["easy"]) {
           data = data + "<div id='problem'>";
@@ -211,7 +214,10 @@ class dashboard extends Component {
           data = data + "<br>";
           data = data + "</div>";
         }
+        if(document.getElementById("demo"))
+        {
         document.getElementById("demo").innerHTML = data;
+        }
       }
     };
     console.log("func start");
@@ -511,6 +517,7 @@ class dashboard extends Component {
           </div>
         ) : null}
         <div id="demo" />
+        <div className="wait">Please wait while the data is gathered..</div>
       </div>
     );
   }

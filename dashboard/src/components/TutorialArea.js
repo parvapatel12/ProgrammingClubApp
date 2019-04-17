@@ -5,7 +5,8 @@ import Addcomment from "./Addcomment";
 import firebase from "firebase";
 import Tutorial from "./Tutorial";
 import { Link } from "react-router-dom";
-var mail,x,k,b;
+import "./css/tutorial.css";
+var mail, x, k, b;
 
 class TutorialArea extends Component {
   constructor(props) {
@@ -14,27 +15,29 @@ class TutorialArea extends Component {
     this.state = {
       userName: "User",
       title: "",
-      tutorialid:0,
+      tutorialid: 0,
       content: " ",
       timestamp: 0,
       list: [],
       temp: [],
-      numoftutorial:"5",
-      isModerator:false
+      numoftutorial: "5",
+      isModerator: false
     };
     this.tutorialRef = firebase
       .database()
       .ref("tutorial_entry");
-      
-     // this.listenTutorials();
-      
+
+    this.listenTutorials();
+
   }
 
-  componentDidMount=() =>{
+  componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({isSignedIn:!!user})
-      if(this.state.isSignedIn) this.getData();
+      this.setState({ isSignedIn: !!user })
+      if (this.state.isSignedIn) this.getData();
     })
+
+    this.listenTutorials();
   }
 
   getData = () => {
@@ -49,7 +52,7 @@ class TutorialArea extends Component {
       .child("users")
       .once("value")
       .then(snapshot => {
-        snapshot.forEach(function(child) {
+        snapshot.forEach(function (child) {
           var temp = child.val().userEmail;
           data_list.push(temp);
           if (temp == String(mail)) {
@@ -71,9 +74,9 @@ class TutorialArea extends Component {
   };
 
 
-  
- listenTutorials() {
-   
+
+  listenTutorials() {
+
 
     this.tutorialRef.orderByPriority().limitToFirst(20).on("value", message => {
       this.setState({
@@ -84,8 +87,7 @@ class TutorialArea extends Component {
 
   }
 
-  handleViewMore(event)
-  {
+  handleViewMore(event) {
     this.listenTutorials();
   }
 
@@ -94,29 +96,31 @@ class TutorialArea extends Component {
 
   render() {
     return (
-      <div>
-        
+      <div className="tut-page">
+
+        <div className="name">Tutorials</div>
+
         {this.state.isModerator ? (
           <Link to="/header/addblog" className="Add-Blog-button">
-          +
-        </Link>
-        ): (
-          <div></div>
-        ) }
-        
+            +
+          </Link>
+        ) : (
+            <div></div>
+          )}
 
-        {this.state.list ? (   
-          <div>      
-              
-         {this.state.list.map((item, index) => (
-          <Tutorial key={index} message={item} />
-          ))
-         }
+
+        {this.state.list ? (
+          <div>
+
+            {this.state.list.map((item, index) => (
+              <Tutorial key={index} message={item} />
+            ))
+            }
           </div>
-      ) : (
-        <div></div>
-      )}
-      <button onClick={this.handleViewMore.bind(this)}>View More</button>  
+        ) : (
+            <div></div>
+          )}
+        {/* <button onClick={this.handleViewMore.bind(this)}>View More</button>   */}
       </div>
     );
   }

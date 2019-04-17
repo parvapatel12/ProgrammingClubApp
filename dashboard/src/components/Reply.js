@@ -84,11 +84,12 @@ class Reply extends Component {
         <div className="reply-username">[{this.props.message.userName}]</div>
         <div className="reply-content" dangerouslySetInnerHTML={{__html: this.props.message.content}} />
         {/* this is added for reply time. */}
+        {/*
         <span >
             {new Date(this.props.message.timestamp).toLocaleDateString()}
             {", "}
             {new Date(this.props.message.timestamp).toLocaleTimeString()}
-          </span>
+          </span>   */}
       </div>
         
       

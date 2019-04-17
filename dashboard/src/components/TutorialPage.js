@@ -1,25 +1,23 @@
 import React, { Component } from "react";
-import "./Tutorials.css";
+import "./css/tutorial.css";
 
 class TutorialPage extends Component {
   constructor(props) {
     super(props);
+   
+    
+  // console.log(this);
   }
-
   render() {
     console.log(this);
     return (
-      <div>
-        <h1>{this.props.match.params.id}</h1>
-        <div className="temp"></div>
-        <div dangerouslySetInnerHTML={{__html: this.props.location.state.message.content}} />
+      <div className="content">
+        <div className="title">{this.props.match.params.id}</div>
+        <div className="tut-topic-content" dangerouslySetInnerHTML={{__html: this.props.location.state.message.content}} />
       </div>
     );
   }
 }
 
-const Mystyle = {
-  padding: "50px"
-};
 
 export default TutorialPage;

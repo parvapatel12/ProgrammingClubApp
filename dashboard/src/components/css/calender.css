@@ -12,21 +12,18 @@ p {
   margin-block-end: 0;
 }
 
-.head {
-  background: rgb(220, 255, 252);
-  color: black;
+
+.calendar-bg {
+  background-color: rgb(220, 255, 252);
+  font-family: 'Josefin Sans', sans-serif;
+  min-height: 1000px;
+
 }
 
-
-
-/* BlogArea.js */
-.blog-main-page {
-  background-image: url(./images/blue.jpg);
-  background-attachment: fixed; 
-  /*background-color: rgb(98, 255, 200);
-  background-color: rgb(220, 255, 252);*/
-  font-family: 'Josefin Sans', sans-serif;
-  min-height: 2000px;
+.CalendarStyle {
+  text-align: center;
+  width: 80%;
+  margin: 0 0 0 10%;
 }
 
 .name {
@@ -35,7 +32,32 @@ p {
   font-size: 80px;
   color: rgba(20,70,73, 1);
   padding-top: 20px;
+  margin-bottom: 20px;
 }
+
+.add-new-event {
+  position: relative;
+  width: 35%;
+  margin: 20px 0 20px 32.5%;
+  height: 400px;
+  background-color: rgba(20,70,73, 1);
+  border-radius: 20px;
+}
+.head {
+  font-size: 30px;
+  padding: 20px 0 10px 0;
+  font-weight: 600;
+  color: white;
+}
+
+.text-form {
+  font-size: 20px;
+  color: white;
+  margin-top: 10px;
+}
+
+
+
 
 .Add-Blog-button {
   position: fixed;
@@ -317,15 +339,6 @@ p {
   margin-left: 10px;
   vertical-align: top;
 }
-
-
-.comment-date {
-  padding-top: 10px;
-  width: 100%;
-  color: rgba(255,255,255,0.4);
-  text-align: center;
-}
-
 
 .partition-line-4 {
   position: relative;

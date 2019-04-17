@@ -9,7 +9,7 @@ import draftToHtml from 'draftjs-to-html';
 import Reply from "./Reply";
 
 //import {WebView} from 'react-native';
-var mail,x,k,b;
+var mail, x, k, b;
 class Comment extends Component {
   constructor(props) {
     super(props);
@@ -32,10 +32,10 @@ class Comment extends Component {
 
   }
 
-  componentDidMount=() =>{
+  componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({isSignedIn:!!user})
-      if(this.state.isSignedIn) this.getData();
+      this.setState({ isSignedIn: !!user })
+      if (this.state.isSignedIn) this.getData();
     })
   }
 
@@ -52,7 +52,7 @@ class Comment extends Component {
       .child("users")
       .once("value")
       .then(snapshot => {
-        snapshot.forEach(function(child) {
+        snapshot.forEach(function (child) {
           var temp = child.val().userEmail;
           data_list.push(temp);
           if (temp == String(mail)) {
@@ -95,7 +95,7 @@ class Comment extends Component {
         // id:currid,
         userName: this.state.curr_user,
         content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
-        timestamp: firebase.database.ServerValue.TIMESTAMP, 
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
       };
 
       //   ref.transaction(function(currid) {
@@ -145,7 +145,7 @@ class Comment extends Component {
                   replylist: reply_obj.replylist,
                   timestamp: reply_obj.timestamp
                 });
-                window.location.reload();
+              window.location.reload();
             }
 
             // id:currid,
@@ -224,15 +224,16 @@ class Comment extends Component {
           <div className="comment-main-2">
 
             <div className="comment-particular">
+              {/* This is added for timestamp in comment */}
+              <div className="comment-date">
+                {new Date(this.state.commentobj.timestamp).toLocaleDateString()}
+                {", "}
+                {new Date(this.state.commentobj.timestamp).toLocaleTimeString()}
+              </div>
               <div className="comment-username">[{this.state.commentobj.userName}]</div>
               <div className="comment-content" dangerouslySetInnerHTML={{ __html: this.state.commentobj.content }} />
 
-            {/* This is added for timestamp in comment */}
-              <span className="blog_date">
-            {new Date(this.state.commentobj.timestamp).toLocaleDateString()}
-            {", "}
-            {new Date(this.state.commentobj.timestamp).toLocaleTimeString()}
-          </span>
+              
               <div className="reply-particular">
                 {this.state.commentobj.replylist ? (
                   <div >
@@ -262,7 +263,7 @@ class Comment extends Component {
                   onEditorStateChange={this.onEditorStateChange}
                 />
                 {/* <div>{this.state.taglist}</div> */}
-                
+
                 {/* <button onClick={this.closeEditor}>Close Editor</button> */}
 
                 <div

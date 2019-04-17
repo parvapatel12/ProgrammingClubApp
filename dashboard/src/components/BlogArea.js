@@ -37,6 +37,7 @@ class BlogArea extends Component {
       this.setState({isSignedIn:!!user})
       if(this.state.isSignedIn) this.getData();
     })
+    this.listenBlogs();
   }
 
   getData()
@@ -107,7 +108,7 @@ class BlogArea extends Component {
         ) : (
           <div />
         )}
-        <button onClick={this.handleViewMore.bind(this)}>View More</button>
+        {/* <button onClick={this.handleViewMore.bind(this)}>View More</button> */}
       </div>
     );
   }

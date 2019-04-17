@@ -3,11 +3,18 @@ import Calendar from "react-big-calendar";
 import moment from "moment";
 import firebase from "firebase";
 // import Popup from "reactjs-popup";
-import { Redirect } from "react-router-dom";
+import Popup from "reactjs-popup";
+//import { Redirect } from "react-router-dom";
+
+import "./css/calender.css";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = Calendar.momentLocalizer(moment);
+var mail;
+var x;
+var k;
+var b;
 
 class BigCalendar extends Component {
   constructor(props) {
@@ -23,7 +30,11 @@ class BigCalendar extends Component {
           title: "",
           description: ""
         }
-      ]
+      ],
+      isModerator: true,
+      has_handle: false,
+      cf_handle: ",",
+      nowChange: false
     };
     this.calendarRef = firebase
       .database()
@@ -31,7 +42,7 @@ class BigCalendar extends Component {
       .child("calendar_entry");
     this.listenCalendar();
     var currid = 0;
-
+    this.onClick = this.onClick.bind(this);
     firebase
       .database()
       .ref()
@@ -251,19 +262,8 @@ class BigCalendar extends Component {
     }
   };
   onClick = e => {
-    if (
-      window.confirm(
-        e.description +
-          '\n\nIf you click "ok" you would be redirected to the Contest Link.'
-      )
-    ) {
-      if (e.link == "") {
-        alert("No link associated with the event");
-      } else {
-        window.location.href = e.link;
-      }
-    }
-
+    this.setState({ nowChange: true });
+    this.setState({ description: e.description, link: e.link, title: e.title });
     //alert(this.state.link);
     //return window.location.assign(e.link);
   };
@@ -302,16 +302,25 @@ class BigCalendar extends Component {
     // this.props.history.replace("/header/calendar");
   };
   onClick2 = e => {
-    if (window.confirm('\nIf you want to delete the event click "ok".')) {
-      {
-        this.deleteEvent(e);
-      }
-      // if (e.link == "") {
-      //   alert("No link associated with the event");
-      // } else {
-      //   window.location.href = e.link;
-      // }
-    }
+    this.setState({ nowChange: true });
+    this.setState({
+      description: e.description,
+      link: e.link,
+      title: e.title,
+      id: e.id
+    });
+    console.log(firebase.auth().currentUser.displayName, e);
+    // this.setState({ nowChange: true });
+    // if (window.confirm('\nIf you want to delete the event click "ok".')) {
+    //   {
+    //     this.deleteEvent(e);
+    //   }
+    //   // if (e.link == "") {
+    //   //   alert("No link associated with the event");
+    //   // } else {
+    //   //   window.location.href = e.link;
+    //   // }
+    // }
 
     //alert(this.state.link);
     //return window.location.assign(e.link);
@@ -320,8 +329,48 @@ class BigCalendar extends Component {
     console.log(this.props.x);
     this.setState({ isModerator: this.props.x });
   };
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ userName: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+      });
+  };
+  printEventTitle = e => {
+    console.log(e.description);
+    return <div>{e.target.value.description}</div>;
+  };
   render() {
-    var isModerator = true;
+    var check = this.state.isModerator;
+    // if (this.state.nowChange) {
+    //   console.log("Hello");
+    //   return <Redirect to="/header/calendaredit" />;
+    // }
     // const isModerator = this.state.isModerator;
     // const form = (
     //   <form onSubmit={this.onSubmit}>
@@ -355,30 +404,57 @@ class BigCalendar extends Component {
     //     <br />
     //   </form>
     // );
+
     return (
-      <div className="App">
+      <div className="calendar-bg">
         {/* {this.props.x} */}
-        {!isModerator ? (
-          <div style={CalendarStyle}>
-            <h3>Events Page</h3>
-            <Calendar
-              popup
-              localizer={localizer}
-              defaultDate={new Date()}
-              events={this.state.events}
-              style={{ height: "70vh" }}
-              onSelectEvent={this.onClick}
-              views={["month"]}
-            />
-            <br />
-            <br />
-            {/* <button onClick={this.redir}>Redirect</button> */}
+        {!check ? (
+          <div>
+            <div className="CalendarStyle">
+              <div className="name">Events Page</div>
+              <Calendar
+                popup
+                localizer={localizer}
+                defaultDate={new Date()}
+                events={this.state.events}
+                style={{ height: "70vh" }}
+                onSelectEvent={this.onClick}
+                views={["month"]}
+              />
+              <br />
+              <br />
+              {!this.state.nowChange ? (
+                <React.Fragment />
+              ) : (
+                <Popup
+                  defaultOpen={true}
+                  onClose={() => {
+                    this.setState({ nowChange: false });
+                  }}
+                >
+                  <div className="pop-up">
+                    <h1>{this.state.title}</h1>
+                    <h3>{this.state.description}</h3>
+                    <button
+                      onClick={() => {
+                        this.state.link.trim() !== ""
+                          ? window.open(this.state.link, "_blank")
+                          : alert("No link associated with event");
+                      }}
+                    >
+                      Go to Event
+                    </button>
+                  </div>
+                </Popup>
+              )}
+              {/* <button onClick={this.redir}>Redirect</button> */}
+            </div>
           </div>
         ) : (
-          <div style={CalendarStyle}>
-            <h3>Events Page</h3>
+          <div className="CalendarStyle">
+            <div className="name">Events Page</div>
             <Calendar
-              popup
+              
               localizer={localizer}
               defaultDate={new Date()}
               events={this.state.events}
@@ -386,14 +462,45 @@ class BigCalendar extends Component {
               onSelectEvent={this.onClick2}
               views={["month"]}
             />
+            {!this.state.nowChange ? (
+              <React.Fragment />
+            ) : (
+              <Popup
+                defaultOpen={true}
+                onClose={() => {
+                  this.setState({ nowChange: false });
+                }}
+              >
+                <div className="pop-up">
+                  <h1>{this.state.title}</h1>
+                  <h3>{this.state.description}</h3>
+                  <button
+                    onClick={() => {
+                      this.state.link.trim() !== ""
+                        ? window.open(this.state.link, "_blank")
+                        : alert("No link associated with event");
+                    }}
+                  >
+                    Go to Event
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.deleteEvent(this.state);
+                    }}
+                  >
+                    Delete Event
+                  </button>
+                </div>
+              </Popup>
+            )}
             {/* <button onClick={this.redir}>Redirect</button> */}
-            <div>
-              <h2>Form to Add New Event</h2>
+            <div className="add-new-event">
+              <div className="head">Form to Add New Event</div>
               <form onSubmit={this.onSubmit}>
-                <p>Start Date</p>
+                <p className="text-form">Start Date</p>
                 <input name="from" type="date" onChange={this.onChange1} />
                 <br />
-                <p>End Date</p>
+                <p className="text-form">End Date</p>
 
                 <input name="to" type="date" onChange={this.onChange2} />
                 <br />
@@ -436,10 +543,6 @@ class BigCalendar extends Component {
     );
   }
 }
-const CalendarStyle = {
-  width: "80%",
-  align: "center",
-  display: "inline-block"
-};
+
 
 export default BigCalendar;
