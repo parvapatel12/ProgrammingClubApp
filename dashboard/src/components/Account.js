@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from "firebase";
 import {Redirect} from "react-router-dom";
-import "./css/tutorial.css"
+import "./css/account.css"
 var mail;
 var x;
 var k;
@@ -9,7 +9,7 @@ var add;
 var key;
 var b;
 
-class About extends Component {
+class Account extends Component {
 
     constructor(props) {
       super(props);
@@ -31,6 +31,7 @@ class About extends Component {
     }
 
     componentDidMount = () => {
+        window.location.reload();
       firebase.auth().onAuthStateChanged(user => {
         this.setState({isSignedIn:!!user})
         //console.log("user",user);
@@ -150,7 +151,7 @@ class About extends Component {
 
       return (
         <div className="head">
-          <h1> check!! </h1>
+          <h1>This is just check!! </h1>
           {firebase.auth().currentUser && <label> Name: {firebase.auth().currentUser.displayName} </label>}
           <br />
           {firebase.auth().currentUser && <label> Name: {firebase.auth().currentUser.email} </label>}
@@ -197,4 +198,4 @@ class About extends Component {
     }
   }
 
-  export default About
+  export default Account;

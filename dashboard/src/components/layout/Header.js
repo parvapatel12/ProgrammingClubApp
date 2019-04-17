@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
+import "../Account";
 //import PropTypes from 'prop-types'
 //import { DropdownButton, Dropdown } from 'react-bootstrap';
 //import Dropdown from 'react-bootstrap/Dropdown';
@@ -31,7 +32,8 @@ export class Header extends Component {
 
     this.state = {
       showMenu: false,
-      redirect:false
+      redirect:false,
+      redirect2:false
     };
 
     this.showMenu = this.showMenu.bind(this);
@@ -65,9 +67,18 @@ export class Header extends Component {
     this.setState({ redirect: true });
   };
 
+  openAccount=()=>
+  {
+    this.setState({redirect2:true});
+  };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/login" />;
+    }
+    if(this.state.redirect2)
+    {
+      return <Redirect to="/header/"/>;
     }
     return (
       <div className="headerStyle">
@@ -120,8 +131,7 @@ export class Header extends Component {
                   </div>
                 </div>
                 <div className="line" />
-                <div className="dropitems">Account</div>
-                <div className="dropitems">More</div>
+                <Link className="dropitems_link" to="/header/Account">Account</Link>
                 <div className="dropitems" onClick={this.handleonClick.bind(this)}>Logout</div>
               </div>
             ) : null}

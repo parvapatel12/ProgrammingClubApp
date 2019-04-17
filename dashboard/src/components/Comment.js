@@ -20,6 +20,7 @@ class Comment extends Component {
       editorState: EditorState.createEmpty(),
       commentobj: 0,
       viewreply: 0,
+      EmptyEditor:EditorState.createEmpty()
     };
 
     // console.log("hello");
@@ -81,13 +82,16 @@ class Comment extends Component {
 
   async handleSendReply() {
 
-    // var hello=draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-    // if(hello.localeCompare("<p></p>")==1)
-    // {
-    //   alert("Empty comment can not be added.");
-    //   this.setState({ viewreply : false });
-    //   return;
-    // }
+    var hello=draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+    var hello2=draftToHtml(convertToRaw(this.state.EmptyEditor.getCurrentContent()));
+
+    if(hello==hello2)
+    {
+      this.setState({ viewreply : false });
+      alert("Empty comment can not be added.");
+      return;
+    }
+    
     var temp=draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
     if(temp=="") return;
     

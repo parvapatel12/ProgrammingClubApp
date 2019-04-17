@@ -22,7 +22,8 @@ class Addcomment extends Component {
       replylist: [],
       editorState: EditorState.createEmpty(),
       timestamp: firebase.database.ServerValue.TIMESTAMP,
-      commentlist: []
+      commentlist: [],
+      EmptyEditor: EditorState.createEmpty()
     };
     this.commentRef = firebase.database().ref().child('comment_list');
     this.ref = firebase.database().ref().child('commentid');
@@ -92,12 +93,14 @@ class Addcomment extends Component {
 
   handleSend() {
 
-    // var hello=draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-    // if(hello.localeCompare("<p></p>")==1)
-    // {
-    //   alert("Empty comment can not be added.");
-    //   return;
-    // }
+    var hello=draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+    var hello2=draftToHtml(convertToRaw(this.state.EmptyEditor.getCurrentContent()));
+
+    if(hello==hello2)
+    {
+      alert("Empty comment can not be added.");
+      return;
+    }
     var currid;
     var ref = firebase.database().ref().child('commentid');
     ref.on("value", function (snapshot) {

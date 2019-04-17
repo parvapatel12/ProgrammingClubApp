@@ -17,7 +17,7 @@ import "./App.css";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
+import Account from "./components/Account";
 import TutorialArea from "./components/TutorialArea";
 import TutorialPage from "./components/TutorialPage";
 import AddTutorial from "./components/AddTutorial";
@@ -73,6 +73,7 @@ class App extends Component {
             <Route path="/header/addblog" component={AddBlog} />
             <Route path="/header/addtutorial" component={AddTutorial} />
             <Route path="/header/dashboard" component={Dashboard} />
+            <Route path="/header/Account" component={Account}/>
           {/*  <Route
               exact
               path="/header/discussion"
