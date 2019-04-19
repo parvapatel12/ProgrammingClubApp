@@ -1,0 +1,21 @@
+{
+  "main.css": "/ProgrammingClubApp/static/css/main.be141468.chunk.css",
+  "main.js": "/ProgrammingClubApp/static/js/main.4e09b111.chunk.js",
+  "main.js.map": "/ProgrammingClubApp/static/js/main.4e09b111.chunk.js.map",
+  "runtime~main.js": "/ProgrammingClubApp/static/js/runtime~main.e41f586c.js",
+  "runtime~main.js.map": "/ProgrammingClubApp/static/js/runtime~main.e41f586c.js.map",
+  "static/css/2.b70e16ab.chunk.css": "/ProgrammingClubApp/static/css/2.b70e16ab.chunk.css",
+  "static/js/2.87e84ac0.chunk.js": "/ProgrammingClubApp/static/js/2.87e84ac0.chunk.js",
+  "static/js/2.87e84ac0.chunk.js.map": "/ProgrammingClubApp/static/js/2.87e84ac0.chunk.js.map",
+  "index.html": "/ProgrammingClubApp/index.html",
+  "precache-manifest.a23a025df914667b13ba288aa34de842.js": "/ProgrammingClubApp/precache-manifest.a23a025df914667b13ba288aa34de842.js",
+  "service-worker.js": "/ProgrammingClubApp/service-worker.js",
+  "static/css/2.b70e16ab.chunk.css.map": "/ProgrammingClubApp/static/css/2.b70e16ab.chunk.css.map",
+  "static/css/main.be141468.chunk.css.map": "/ProgrammingClubApp/static/css/main.be141468.chunk.css.map",
+  "static/media/avatar-big-01.jpg": "/ProgrammingClubApp/static/media/avatar-big-01.13a2e808.jpg",
+  "static/media/Blog.css": "/ProgrammingClubApp/static/media/blue.924d72d2.jpg",
+  "static/media/deep.jpg": "/ProgrammingClubApp/static/media/deep.40f44480.jpg",
+  "static/media/logo.png": "/ProgrammingClubApp/static/media/logo.536be298.png",
+  "static/media/upvote.png": "/ProgrammingClubApp/static/media/upvote.e8b69bc5.png",
+  "static/media/upvote_bw.png": "/ProgrammingClubApp/static/media/upvote_bw.783e5ad3.png"
+}
