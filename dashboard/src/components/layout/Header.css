@@ -36,7 +36,7 @@
     position: absolute;
     display: inline-block;
     right: 0px;
-    width: 250px;
+    min-width: 315px;
     padding-top: 15px;
 }
 
@@ -59,7 +59,7 @@
     color: rgba(0, 255, 162, 1);
     display: inline-block;
     font-size: 25px;
-    width: 180px;
+    min-width: 180px;
     padding-left: 10px;
     line-height: 76px;
     top: 10px;
@@ -128,7 +128,7 @@
     font-size: 15px;
     vertical-align: middle;   
     padding-left: 92px;
-    padding-top: 40px;
+    padding-top: 50px;
 }
 .line {
     position: absolute;

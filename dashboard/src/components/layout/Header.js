@@ -106,7 +106,7 @@ export class Header extends Component {
               alt="profile"
             /> */}
 
-            {firebase.auth().currentUser && <p className="username">{firebase.auth().currentUser.displayName}</p>}
+            {firebase.auth().currentUser && <div className="username">{firebase.auth().currentUser.displayName}</div>}
             <p className="arrow-down">^</p>
             {this.state.showMenu ? (
               <div
