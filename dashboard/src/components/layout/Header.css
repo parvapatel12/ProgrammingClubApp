@@ -11,7 +11,7 @@
     position: relative;
     background-color: rgba(20,70,73, 1);
     width: 100%;
-    height: 87px;
+    min-height: 87px;
     box-shadow: 0 0 10px rgba(0,0,0,0.8);
     z-index: 200;
 }
@@ -150,6 +150,7 @@
     color: rgba(0, 255, 162, 1);
     font-size: 30px;
     line-height: 93px;  
+    border-radius:  0 0 20px 20px;
     user-select: none;
 }
 .dropitems:hover {
@@ -210,11 +211,11 @@
     position: relative;
     color: rgba(0, 255, 162, 1);
     background-color: rgb(17, 107, 95);
-    font-size: 25px;
+    font-size: 180%;
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
     justify-items: center;
-    height: 60px;
+    min-height: 60px;
     width: 25%;
     text-align: center;
     line-height: 60px;

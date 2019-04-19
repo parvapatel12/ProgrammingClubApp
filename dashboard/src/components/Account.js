@@ -185,7 +185,7 @@ class Account extends Component {
 
         <div className="moderator-control">
           {this.state.isModerator ? (
-            <div> </div>
+            <div className="already_moderator">You are already a moderator.</div>
           ) : (
               <div>
                 <button className="moderator_access" onClick={this.modAccess.bind(this)}>Request Moderator Access</button>
@@ -200,12 +200,12 @@ class Account extends Component {
                     </input>
                   </div>
                 ) : (
-                    <div> </div>
+                    <div></div>
                   )}
               </div>
             )}
         </div>
-        <button className="logout_btn" onClick={this.handleonClick}>Log Out</button>
+        <button className="logout_btn" onClick={this.handleonClick}>Logout</button>
       </div>
     );
   }

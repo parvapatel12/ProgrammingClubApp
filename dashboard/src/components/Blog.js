@@ -69,17 +69,62 @@ export default class Blog extends Component {
           this.setState({ cf_handle: k });
         }
       });
-      this.calculate_vote();
+      // this.calculate_vote();
   };
 
 
+  componentDidMount=() =>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      if(this.state.isSignedIn) this.getData();
+    })
+  }
+
+  getData = () => {
+    mail = firebase.auth().currentUser.email;
+    var y = 1;
+    var data_list = [];
+    var z = 1;
+
+    firebase
+      .database()
+      .ref()
+      .child("users")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(child) {
+          var temp = child.val().userEmail;
+          data_list.push(temp);
+          if (temp == String(mail)) {
+            x = child.val().userName;
+            k = child.val().cf_handle;
+            b = child.val().isModerator;
+          }
+        });
+        this.setState({ curr_user: x });
+        this.setState({ isModerator: b });
+        if (k == undefined || k == null || k == "00") {
+          this.setState({ hasHandle: false });
+          this.setState({ cf_handle: x });
+        } else {
+          this.setState({ hasHandle: true });
+          this.setState({ cf_handle: k });
+        }
+        this.calculate_vote();
+      });
+  };
 
 
   calculate_vote() {
-    this.state.upvoted = (this.props.message.upvote.includes(this.state.curr_user)) ? true : false;
-    this.state.downvoted = (this.props.message.downvote.includes(this.state.curr_user)) ? true : false;
-
+    
+    console.log(this.state.curr_user);
+    var t1 = (this.props.message.upvote.includes(this.state.curr_user)) ? true : false;
+    var t2 = (this.props.message.downvote.includes(this.state.curr_user)) ? true : false;
+    this.setState({upvoted:t1,downvoted:t2});
   }
+
+
+  
 
   handleUpvote() {
 
@@ -102,7 +147,7 @@ export default class Blog extends Component {
             curr_key = childSnapshot.key;
             // console.log(curr_key);
             firebase.database().ref().child("blog_entry").child(curr_key).update({ upvote: upvotearray });
-
+            
           }
         });
       });
